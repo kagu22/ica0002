@@ -1,3 +1,16 @@
 - name: install nginx
   ansible.builtin.apt:
     name: nginx-full
+
+- name: replace the /etc/nginx/sites-enabled/default with my copy
+  ansible.builtin.copy:
+    src: default
+    dest: /etc/nginx/sites-enabled/default
+  notify: restart nginx
+
+- name: Ensure that Nginx service is started and enabled
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
