@@ -8,6 +8,7 @@
     state: directory
     path: /opt/agama
     owner: agama
+    group: agama
 
 - name: install python3-flask-sqlalchemy
   ansible.builtin.apt:
