@@ -5,10 +5,11 @@
 
 - name: create opt/agama dir owned by agama
   ansible.builtin.file:
-    state: directory
     path: /opt/agama
+    state: directory
     owner: agama
     group: agama
+    mode: 0755
 
 - name: install python3-flask-sqlalchemy
   ansible.builtin.apt:
