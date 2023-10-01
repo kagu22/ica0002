@@ -2,9 +2,9 @@
   ansible.builtin.apt:
     name: mysql-server
 
-      #- name: Install python3-pymysql
-      #ansible.builtin.apt:
-      #name: python3-pymysql
+- name: Install python3-pymysql
+  ansible.builtin.apt:
+    name: python3-pymysql
 
 - name: copy override.cnf to mysql conf
   ansible.builtin.copy:
