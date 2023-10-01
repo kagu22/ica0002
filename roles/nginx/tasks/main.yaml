@@ -1,6 +1,6 @@
 - name: install nginx
   ansible.builtin.apt:
-    name: nginx-full
+    name: nginx
 
 - name: replace the /etc/nginx/sites-enabled/default with my copy
   ansible.builtin.copy:
