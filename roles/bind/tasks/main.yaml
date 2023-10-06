@@ -1,3 +1,10 @@
+- name: Get variables
+  ansible.builtin.setup:
+
+- name: See what variables collected
+  ansible.builtin.debug:
+    var: hostvars[inventory_hostname]
+
 - name: Install Bind9
   ansible.builtin.apt:
     name: bind9

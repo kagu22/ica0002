@@ -1,4 +1,12 @@
-acl mynet { 192.168.42.0/23; 127.0.0.0/8; };
+acl mynet {
+    {% for network in local_network %}
+    {{ network }};
+    {% endfor %}
+
+    {% for host in localhost %}
+    {{ host }};
+    {% endfor %}
+};
 
 options { 
 	directory "/var/lib/bind";
