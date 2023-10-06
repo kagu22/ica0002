@@ -1,0 +1,13 @@
+acl mynet { 192.168.42.0/23; 127.0.0.0/8; };
+
+options { 
+	directory "/var/lib/bind";
+        forwarders {
+      {% for f in dns_forwarders %}
+            {{ f }};
+      {% endfor %}  	
+	};
+        allow-query { mynet; };
+	dnssec-validation no;
+};
+

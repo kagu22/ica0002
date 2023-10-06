@@ -1,0 +1,15 @@
+- name: Install Bind9
+  ansible.builtin.apt:
+    name: bind9
+
+- name: Verify that bind is started and enabled
+  ansible.builtin.service:
+    name: bind9
+    state: started
+    enabled: true
+
+- name: Copy named.conf.options to /etc/bind
+  ansible.builtin.template:
+    src: named.conf.options.j2
+    dest: /etc/bind/named.conf.options
+  notify: restart bind9 
