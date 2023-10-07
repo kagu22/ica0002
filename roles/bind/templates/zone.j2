@@ -6,6 +6,13 @@ kaguu.rk.	IN	SOA	vm2.kaguu.rk. tiit.zilla.rk. (
 			2419200		; Expire
 			 604800 )	; Negative Cache TTL
 ;
-kaguu.rk.	IN	NS	vm2
-vm1	IN	A	192.168.42.17
-vm2	IN	A	192.168.42.123
+{% for vm in groups['dns_servers'] %}
+kaguu.rk.	IN	NS	{{ vm }}
+{% endfor %}
+{% for vm in groups['all'] %}
+{{ vm }}        IN      A {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
+{% endfor %}
+
+  
+#vm1	IN	A	192.168.42.17
+#vm2	IN	A	192.168.42.123
