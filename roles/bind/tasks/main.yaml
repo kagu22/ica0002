@@ -19,4 +19,16 @@
   ansible.builtin.template:
     src: named.conf.options.j2
     dest: /etc/bind/named.conf.options
+  notify: restart bind9
+
+- name: Copy named.conf.local to /etc/bind
+  ansible.builtin.template:
+    src: named.conf.local.j2
+    dest: /etc/bind/named.conf.local
   notify: restart bind9 
+
+- name: Copy Zone file
+  ansible.builtin.template:
+    src: zone.j2
+    dest: /var/lib/bind/db.kaguu.rk
+  notify: restart bind9
