@@ -1,6 +1,6 @@
-# mysql_host: hostvars['kagu22-2']['ansible_facts']['default_ipv4']['address']
-# mysql_host: 192.168.42.123
-mysql_host: db IN A kagu22-2
+mysql_host:  "{{ hostvars[vm2]['ansible_default_ipv4']['address'] }}"
+# mysql_host: 192.168.43.124
+# mysql_host: kagu22-2
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
@@ -18,6 +18,12 @@ dns_forwarders:
 
 local_network:
   - 192.168.42.0/23
-localhost:
+localhost: 
   - 127.0.0.0/8
+
+domain_name: kaguu.rk
+domain: kaguu
+
+vm1: kagu22-1
+vm2: kagu22-2  
 

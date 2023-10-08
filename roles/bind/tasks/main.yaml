@@ -3,7 +3,8 @@
 
 - name: See what variables collected
   ansible.builtin.debug:
-    var: hostvars['kagu22-2']['ansible_facts']['default_ipv4']['address']
+    msg: "{% for vm in groups['all'] %} nameserver {{ hostvars[vm]['ansible_default_ipv4']['address'] }}{% endfor %}"
+      # var: hostvars['kagu22-2']['ansible_facts']['default_ipv4']['address']
 
 - name: Install Bind9
   ansible.builtin.apt:
@@ -31,4 +32,16 @@
   ansible.builtin.template:
     src: zone.j2
     dest: /var/lib/bind/db.kaguu.rk
-  notify: restart bind9
+  notify: reload rndc
+
+- name: stop resolved service
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    enabled: no
+    state: stopped
+
+- name: Copy resolv.conf file
+  ansible.builtin.template:
+    src: resolv.conf.j2
+    dest: /etc/resolv.conf
+  notify: restart bind9 
