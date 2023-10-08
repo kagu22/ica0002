@@ -4,17 +4,19 @@
 - name: See what variables collected
   ansible.builtin.debug:
     msg: "{% for vm in groups['all'] %} nameserver {{ hostvars[vm]['ansible_default_ipv4']['address'] }}{% endfor %}"
-      # var: hostvars['kagu22-2']['ansible_facts']['default_ipv4']['address']
-
-- name: Install Bind9
+      # var: hostvars['kagu22-2']['ansible_facts']['default_ipv4']['address']  
+      
+- name: Install Bind9 on vm2
   ansible.builtin.apt:
     name: bind9
+  when: inventory_hostname ==  'kagu22-2'
 
 - name: Verify that bind is started and enabled
   ansible.builtin.service:
     name: bind9
     state: started
     enabled: true
+  when: inventory_hostname ==  'kagu22-2'
 
 - name: Copy named.conf.options to /etc/bind
   ansible.builtin.template:
