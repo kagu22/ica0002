@@ -12,7 +12,3 @@ kaguu.rk.	IN	NS	{{ vm }}
 {% for vm in groups['all'] %}
 {{ vm }}        IN      A {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
 {% endfor %}
-
-  
-#vm1	IN	A	192.168.42.17
-#vm2	IN	A	192.168.42.123
