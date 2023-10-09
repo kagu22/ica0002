@@ -20,4 +20,9 @@
 - name: DNS Server
   hosts: dns_servers
   roles:
-    - bind    
+    - bind
+
+- name:
+  hosts: resolvers
+  roles:
+    - resolvers  
