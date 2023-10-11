@@ -34,16 +34,4 @@
   ansible.builtin.template:
     src: zone.j2
     dest: /var/lib/bind/db.kaguu.rk
-  notify: reload rndc
-
-    #- name: stop resolved service
-    # ansible.builtin.systemd:
-    # name: systemd-resolved
-    # enabled: no
-    # state: stopped
-
-    #- name: Copy resolv.conf file
-    # ansible.builtin.template:
-    # src: resolv.conf.j2
-    # dest: /etc/resolv.conf
-    # notify: restart bind9 
+  notify: reload rndc 
