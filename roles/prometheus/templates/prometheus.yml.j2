@@ -18,6 +18,7 @@ scrape_configs:
 
     # metrics_path defaults to '/metrics'
     # scheme defaults to 'http'.
+    metric_path: /prometheus/metrics
 
     static_configs:
       - targets: ['localhost:9090']
