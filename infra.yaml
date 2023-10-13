@@ -22,7 +22,12 @@
   roles:
     - bind
 
-- name:
+- name: Resolv.conf 
   hosts: resolvers
   roles:
     - resolvers  
+
+- name: Prometheus 
+  hosts: prometheus
+  roles:
+    - prometheus
