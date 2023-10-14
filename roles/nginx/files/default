@@ -9,6 +9,6 @@ server {
 		include uwsgi_params;
 	}
 	location /prometheus  {
-	    proxy_pass http://kagu22-1:9090;
+	    proxy_pass http://{{localhost_address}}:9090;
         }
 }

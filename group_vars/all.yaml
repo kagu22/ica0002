@@ -11,6 +11,8 @@ mysql_password: !vault |
           3936663038646366330a396261636538626532636536626438623165353565396235363937643838
           6265
 
+ansible_host: 193.40.156.67
+
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
@@ -27,3 +29,4 @@ domain: kaguu
 vm1: kagu22-1
 vm2: kagu22-2  
 
+localhost_address: 127.0.0.1

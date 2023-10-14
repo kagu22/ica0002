@@ -1,0 +1,6 @@
+# Memory Consumption (%)
+(1 - (node_memory_MemFree_bytes + node_memory_Cached_bytes + node_memory_Buffers_bytes) / node_memory_MemTotal_bytes) * 100
+
+# Average CPU Load (1m)
+1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m]))
+
