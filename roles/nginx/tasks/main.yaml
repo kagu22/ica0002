@@ -7,6 +7,7 @@
     src: default.j2
     dest: /etc/nginx/sites-enabled/default
   notify: restart nginx
+  tags: nginx
 
 - name: Ensure that Nginx service is started and enabled
   ansible.builtin.service:
