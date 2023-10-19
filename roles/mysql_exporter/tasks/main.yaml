@@ -6,5 +6,17 @@
   ansible.builtin.template:
     src: my.cnf.j2
     dest: /var/lib/prometheus/.my.cnf
+      #owner: prometheus
+      #group: prometheus
+      #mode: 0644
   notify: restart mysql exporter
   # no_log: true
+  tags: mysql
+
+- name: Create MySQL exporter user
+  community.mysql.mysql_user:
+    name: "{{ mysql_exporter_user }}"
+    password: "{{ mysql_exporter_password }}"
+    priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+      # no_log: true

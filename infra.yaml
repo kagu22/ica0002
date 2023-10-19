@@ -9,6 +9,7 @@
   roles:
     - bind
     - bind_exporter
+  tags: b
 
 - name: Resolv.conf
   hosts: resolvers
@@ -21,6 +22,7 @@
   roles:
     - mysql
     - mysql_exporter
+  tags: my
 
 
 - name: Web server
@@ -29,8 +31,11 @@
     - agama
     - uwsgi
     - nginx
+    - nginx_exporter
+  tags: web
 
 - name: Prometheus 
   hosts: prometheus
   roles:
     - prometheus
+  tags: p
