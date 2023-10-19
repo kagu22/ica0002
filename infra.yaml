@@ -4,6 +4,17 @@
   roles:
     - init
 
+- name: DNS Server
+  hosts: dns_servers
+  roles:
+    - bind
+
+- name: Resolv.conf
+  hosts: resolvers
+  roles:
+    - resolvers
+
+
 - name: Database server
   hosts: db_servers
   roles:
@@ -16,16 +27,6 @@
     - agama
     - uwsgi
     - nginx
-
-- name: DNS Server
-  hosts: dns_servers
-  roles:
-    - bind
-
-- name: Resolv.conf 
-  hosts: resolvers
-  roles:
-    - resolvers  
 
 - name: Prometheus 
   hosts: prometheus
