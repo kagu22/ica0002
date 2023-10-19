@@ -1,0 +1,10 @@
+- name: Install MySQL exporter
+  ansible.builtin.apt:
+    name: prometheus-mysqld-exporter
+
+- name: Copy my.cnf to /var/lib/prometheus
+  ansible.builtin.template:
+    src: my.cnf.j2
+    dest: /var/lib/prometheus/.my.cnf
+  notify: restart mysql exporter
+  # no_log: true

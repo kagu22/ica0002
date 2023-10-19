@@ -20,6 +20,7 @@
   hosts: db_servers
   roles:
     - mysql
+    - mysql_exporter
 
 
 - name: Web server
