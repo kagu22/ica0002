@@ -8,6 +8,7 @@
   hosts: dns_servers
   roles:
     - bind
+    - bind_exporter
 
 - name: Resolv.conf
   hosts: resolvers
