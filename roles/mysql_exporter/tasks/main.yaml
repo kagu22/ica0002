@@ -6,9 +6,9 @@
   ansible.builtin.template:
     src: my.cnf.j2
     dest: /var/lib/prometheus/.my.cnf
-      #owner: prometheus
-      #group: prometheus
-      #mode: 0644
+    owner: prometheus
+    group: root
+    mode: 0640
   notify: restart mysql exporter
   # no_log: true
   tags: mysql
