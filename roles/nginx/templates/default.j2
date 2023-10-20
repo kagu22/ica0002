@@ -9,6 +9,10 @@ server {
 	location /prometheus  {
 	    proxy_pass http://kagu22-2:9090;
         }
+        location /grafana  {
+            proxy_pass http://kagu22-1:3000;
+	    proxy_set_header Host $http_host;
+        }
 }
 
 
