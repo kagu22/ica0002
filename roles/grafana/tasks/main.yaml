@@ -4,17 +4,26 @@
     state: directory
     mode: 0755
 
-- name: Check if Grafana GPG key is present
-  ansible.builtin.stat:
-    path: /etc/apt/keyrings/grafana.gpg
-  register: grafana_gpg
+- name: Add Grafana repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://packages.grafana.com/oss/deb stable main"
+    state: present
+    filename: grafana
+
+      #- name: Check if Grafana GPG key is present
+      #ansible.builtin.stat:
+      #path: /etc/apt/keyrings/grafana.gpg
+      #register: grafana_gpg
 
 - name: Download GPG keys
-  ansible.builtin.shell: wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+  ansible.builtin.apt_key:
+    url: https://packages.grafana.com/gpg.key
+    state: present
+  #ansible.builtin.shell: wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
     # cmd: curl -s https://apt.grafana.com/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/grafana.gpg > /dev/null
-  args:
-    creates: /etc/apt/keyrings/grafana.gpg
-  when: not grafana_gpg.stat.exists
+    #args:
+    #creates: /etc/apt/keyrings/grafana.gpg
+    #when: not grafana_gpg.stat.exists
 
 - name: install Grafana
   ansible.builtin.apt:
