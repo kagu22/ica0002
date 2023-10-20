@@ -3,13 +3,14 @@
   hosts: all
   roles:
     - init
+  tags: init
 
 - name: DNS Server
   hosts: dns_servers
   roles:
     - bind
     - bind_exporter
-  tags: b
+  tags: bind
 
 - name: Resolv.conf
   hosts: resolvers
@@ -22,7 +23,7 @@
   roles:
     - mysql
     - mysql_exporter
-  tags: my
+  tags: mysql
 
 
 - name: Web server
@@ -38,4 +39,4 @@
   hosts: prometheus
   roles:
     - prometheus
-  tags: p
+  tags: prom
