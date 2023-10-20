@@ -40,3 +40,10 @@
   roles:
     - prometheus
   tags: prom
+
+- name: grafana
+  hosts: web_servers
+  roles:
+    -  grafana
+  tags: graf
+
