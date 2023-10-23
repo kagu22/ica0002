@@ -31,9 +31,16 @@
   roles:
     - agama
     - uwsgi
+      #- nginx
+      #- nginx_exporter
+  tags: web
+
+- name: Nginx
+  hosts: all
+  roles:
     - nginx
     - nginx_exporter
-  tags: web
+  tags: nginx
 
 - name: Prometheus 
   hosts: prometheus

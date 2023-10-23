@@ -1,5 +1,5 @@
-kagu22-1 ansible_host=193.40.156.67 ansible_port=33922 ansible_user=ubuntu
-kagu22-2 ansible_host=193.40.156.67 ansible_port=38622 ansible_user=ubuntu
+kagu22-1 ansible_host=193.40.156.67 ansible_port=8222 ansible_user=ubuntu
+kagu22-2 ansible_host=193.40.156.67 ansible_port=4822 ansible_user=ubuntu
 
 [web_servers]
 kagu22-1
