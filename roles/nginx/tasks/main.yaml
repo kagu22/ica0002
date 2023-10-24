@@ -2,26 +2,28 @@
   ansible.builtin.apt:
     name: nginx
 
+- name: Install Prometheus Nginx Exporter
+  ansible.builtin.apt:
+    name: prometheus-nginx-exporter
+
 - name: Ensure that Nginx service is started and enabled
   ansible.builtin.service:
     name: nginx
     state: started
     enabled: true
 
-- name: replace the /etc/nginx/sites-enabled/default with my copy
-  ansible.builtin.template:
-    src: default.j2
-    dest: /etc/nginx/sites-enabled/default
-  notify: restart nginx
-
-- name: Install Prometheus Nginx Exporter
-  ansible.builtin.apt:
-    name: prometheus-nginx-exporter
-
 - name: Ensure that nginx exporter is started und enabled
   ansible.builtin.service:
     name: prometheus-nginx-exporter
     state: started
     enabled: true
+     
+- name: replace the /etc/nginx/sites-enabled/default with my copy
+  ansible.builtin.template:
+    src: default.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify:
+    - restart nginx
+    - restart nginx_exporter
 
 
