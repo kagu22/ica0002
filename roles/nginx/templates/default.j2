@@ -6,15 +6,20 @@ server {
 		uwsgi_pass localhost:5000;
 		include uwsgi_params;
 	}
+
+	{% if inventory_hostname in groups['prometheus'] -%}
 	location /prometheus  {
 	    proxy_pass http://localhost:9090;
         }
+	{% endif %}
+	
+	{% if inventory_hostname in groups['grafana'] -%}
         location /grafana  {
             proxy_pass http://localhost:3000;
 	    proxy_set_header Host $http_host;
         }
+	{% endif %}
 }
-
 
 
 server {

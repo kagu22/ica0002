@@ -39,7 +39,7 @@
   hosts: all
   roles:
     - nginx
-    - nginx_exporter
+      #- nginx_exporter
   tags: nginx
 
 - name: Prometheus 
