@@ -2,6 +2,12 @@
   ansible.builtin.apt:
     name: nginx
 
+- name: Ensure that Nginx service is started and enabled
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
+
 - name: replace the /etc/nginx/sites-enabled/default with my copy
   ansible.builtin.template:
     src: default.j2
@@ -12,15 +18,10 @@
   ansible.builtin.apt:
     name: prometheus-nginx-exporter
 
-- name: Ensure that nginx exporter is starte und enabled
+- name: Ensure that nginx exporter is started und enabled
   ansible.builtin.service:
     name: prometheus-nginx-exporter
     state: started
     enabled: true
-   
-- name: Ensure that Nginx service is started and enabled
-  ansible.builtin.service:
-    name: nginx
-    state: started
-    enabled: true
+
 
