@@ -20,7 +20,7 @@
   "graphTooltip": 0,
   "id": 3,
   "links": [],
-  "liveNow": false,
+  "liveNow": true,
   "panels": [
     {
       "aliasColors": {},
@@ -737,7 +737,7 @@
       }
     }
   ],
-  "refresh": "",
+  "refresh": "auto",
   "schemaVersion": 38,
   "tags": [],
   "templating": {
@@ -751,6 +751,6 @@
   "timezone": "",
   "title": "main",
   "uid": "LUiyyy0Mk",
-  "version": 4,
+  "version": 6,
   "weekStart": ""
 }
