@@ -32,3 +32,26 @@
     dest: /etc/grafana/grafana.ini
   notify: restart grafana
   
+- name: Copy Datasources config to /etc/grafana
+  ansible.builtin.template:
+    src: datasources.yaml.j2
+    dest: /etc/grafana/provisioning/datasources/main.yaml
+  notify: restart grafana
+
+- name: Copy Dashboards config to /etc/grafana
+  ansible.builtin.template:
+    src: dashboards.yaml.j2
+    dest: /etc/grafana/provisioning/dashboards/main.yaml
+  notify: restart grafana
+
+- name: Create directory /var/lib/grafana/dashboards
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+
+- name: Upload dashboards
+  ansible.builtin.copy:
+    src: main.json
+    dest: /var/lib/grafana/dashboards/main.json
+  notify: restart grafana
+    
