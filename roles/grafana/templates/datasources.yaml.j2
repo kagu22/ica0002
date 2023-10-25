@@ -6,6 +6,7 @@ datasources:
    type: prometheus
    access: proxy
    orgId: 1
+   uid: b111c13e-f3f2-448a-87c1-01bfc6574d9c
    {% for vm in groups['prometheus'] -%}
    url: http://{{ vm }}/prometheus
    {% endfor -%}
