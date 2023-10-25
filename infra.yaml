@@ -49,7 +49,7 @@
   tags: prom
 
 - name: grafana
-  hosts: web_servers
+  hosts: grafana
   roles:
     -  grafana
   tags: graf
