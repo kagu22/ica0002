@@ -58,5 +58,11 @@
   hosts: influxdb
   roles:
     - influxdb
-  tags: influ    
+  tags: influ 
+
+- name: pinger
+  hosts: pinger
+  roles:
+    - pinger
+  tags: ping  
 

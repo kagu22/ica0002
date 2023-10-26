@@ -1,0 +1,44 @@
+- name: Install pinger
+  ansible.builtin.apt:
+    name: fping
+    state: latest
+
+- name: Create user pinger
+  ansible.builtin.user:
+    name: pinger
+
+- name: Create /usr/local/bin/pinger directory
+  ansible.builtin.file:
+    path: /usr/local/bin/pinger
+    state: directory
+
+- name: copy  pinger.sh to /usr/local/bin/pinger
+  ansible.builtin.copy:
+    src: pinger.sh
+    dest: /usr/local/bin/pinger/pinger.sh
+    mode: 0755
+  notify: reload daemon
+
+- name: Create /etc/pinger directory
+  ansible.builtin.file:
+    path: /etc/pinger
+    state: directory
+
+- name: Copy pinger config
+  ansible.builtin.template:
+    src: pinger.conf.j2
+    dest: /etc/pinger/pinger.conf
+  notify: reload daemon
+
+- name: Copy pinger.service to /etc/systemd
+  ansible.builtin.copy:
+    src: pinger.service
+    dest: /etc/systemd/system/pinger.service
+    mode: 0755
+  notify: reload daemon
+
+- name:  Ensure that pinger is started und enabled
+  ansible.builtin.service:
+    name: pinger
+    state: started
+    enabled: true
