@@ -47,7 +47,7 @@ vm2: kagu22-2
 
 localhost_address: 127.0.0.1
 
-nfluxdb_version: "1.8.10"
+influxdb_version: "1.8.10"
 influxdb_deb_url: "https://dl.influxdata.com/influxdb/releases/influxdb_1.8.10_amd64.deb"
 influxdb_deb_local: "/tmp/influxdb_1.8.10_amd64.deb"
 influxdb_sha256sum: "b2ace09231575df7309a41cea6f9dc7ad716fe4389dc06ac04470a14bd411456"
