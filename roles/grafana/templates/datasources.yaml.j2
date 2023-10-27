@@ -12,3 +12,25 @@ datasources:
    {% endfor -%}
    version: 1
    editable: false
+
+ - name: InfluxDB-latency
+   type: influxdb
+   access: proxy
+   {% for vm in groups['influxdb'] -%}
+   url: http://{{ vm }}:8086
+   {% endfor -%}
+   #user:
+   #password:
+   database: latency
+   editable: true
+
+ #- name: InfluxDB-telegraf
+   #type: influxdb
+   #access: proxy
+   #{% for vm in groups['all'] -%}
+   #url: http://{{ vm }}:8086
+   #{% endfor -%}
+   #user:
+   #password:
+   #database: telegraf
+   #editable: true

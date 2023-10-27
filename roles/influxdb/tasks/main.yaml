@@ -9,6 +9,12 @@
     deb: /tmp/influxdb_1.8.10_amd64.deb
     # state: present
 
+- name: Copy infuxdb conf to  /etc/influxdb/influxdb.conf
+  ansible.builtin.template:
+    src: influxdb.conf.j2
+    dest: /etc/influxdb/influxdb.conf
+  notify: restart influxdb
+
 - name: Enable and start InfluxDB service
   ansible.builtin.systemd:
     name: influxdb
@@ -29,5 +35,5 @@
   ansible.builtin.template:
     src: telegraf.conf.j2
     dest: /etc/telegraf/telegraf.conf
-  # notify: restart telegraf
+  notify: restart telegraf
 

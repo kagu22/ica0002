@@ -1,0 +1,9 @@
+- name: restart influxdb
+  ansible.builtin.service:
+    name: influxdb
+    state: restarted
+
+- name: restart telegraf
+  ansible.builtin.service:
+    name: telegraf
+    state: restarted
