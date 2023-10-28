@@ -61,8 +61,8 @@
     dest: /var/lib/grafana/dashboards/syslog.json
   notify: restart grafana
    
-- name: Set Home dashboard
-  ansible.builtin.copy:
-    src: main.json
-    dest: /usr/share/grafana/public/dashboards/home.json 
-  notify: restart grafana 
+#- name: Set Home dashboard
+#  ansible.builtin.copy:
+#    src: main.json
+#    dest: /usr/share/grafana/public/dashboards/home.json 
+#  notify: restart grafana 
