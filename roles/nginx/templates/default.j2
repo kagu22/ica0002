@@ -21,6 +21,12 @@ server {
 	    proxy_set_header Host $http_host;
         }
 	{% endif %}
+
+	{% if inventory_hostname in groups['influxdb'] -%}
+	location /prometheus  {
+	    proxy_pass http://localhost:8086;
+        }
+	{% endif %}
 }
 
 
