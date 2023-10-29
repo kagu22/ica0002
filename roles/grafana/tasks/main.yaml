@@ -49,26 +49,13 @@
     path: /var/lib/grafana/dashboards
     state: directory
 
-<<<<<<< HEAD
 - name: Copy  main dashboard
-=======
-- name: Copy main dashboard
->>>>>>> c714f1d (lab 8 grafana fixes (dasboard folder))
   ansible.builtin.copy:
     src: main.json
     dest: /var/lib/grafana/dashboards/main.json
   notify: restart grafana
 
 - name: Copy syslog dashboard
-<<<<<<< HEAD
-=======
-  ansible.builtin.copy:
-    src: syslog.json
-    dest: /var/lib/grafana/dashboards/syslog.json
-  notify: restart grafana
-   
-- name: Set Home dashboard
->>>>>>> c714f1d (lab 8 grafana fixes (dasboard folder))
   ansible.builtin.copy:
     src: syslog.json
     dest: /var/lib/grafana/dashboards/syslog.json
