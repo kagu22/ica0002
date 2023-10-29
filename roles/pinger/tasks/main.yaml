@@ -37,8 +37,8 @@
     mode: 0755
   notify: reload daemon
 
-    #- name:  Ensure that pinger is started und enabled
-    #ansible.builtin.service:
-    #name: pinger
-    #state: started
-    #enabled: true
+- name:  Ensure that pinger is started und enabled
+  ansible.builtin.service:
+    name: pinger
+    state: started
+    enabled: true
