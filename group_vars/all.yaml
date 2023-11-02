@@ -43,7 +43,9 @@ domain_name: kaguu.rk
 domain: kaguu
 
 vm1: kagu22-1
-vm2: kagu22-2  
+vm2: kagu22-2
+
+backup_server: 192.168.42.132  
 
 localhost_address: 127.0.0.1
 
