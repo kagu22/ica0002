@@ -31,6 +31,33 @@
     name: mysql
     state: started
     enabled: true
+
+- name: Create directory /home/backup/mysql owned by user backup
+  ansible.builtin.file:
+    path: /home/backup/mysql
+    state: directory
+    owner: backup
+    group: backup
+    mode: 0750
+
+- name: Create MySQL baskup user
+  community.mysql.mysql_user:
+    name: "{{ mysql_backup_user }}"
+    password: "{{ mysql_backup_user_password }}"
+    priv: "{{ mysql_database }}.*:LOCK TABLES,SELECT"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
+
+- name: Copy my.cnf to /home/backup/.my.conf
+  ansible.builtin.template:
+    src: backup.cnf.j2
+    dest: /home/backup/.my.cnf
+    owner: backup
+    group: backup
+    mode: 0400
+  notify: restart mysql
+
+
  
 
 

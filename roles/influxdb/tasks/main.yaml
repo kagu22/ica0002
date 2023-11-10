@@ -37,3 +37,11 @@
     dest: /etc/telegraf/telegraf.conf
   notify: restart telegraf
 
+- name: Create /home/backup/influxdb directory owned by user backup
+  ansible.builtin.file:
+    path: /home/backup/influxdb
+    state: directory
+    owner: backup
+    group: backup
+    mode: 0750
+
