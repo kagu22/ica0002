@@ -57,6 +57,10 @@
     mode: 0400
   notify: restart mysql
 
+- name: Copy Crontab file  to /etc/cron.d/mysql-backup
+  ansible.builtin.template:
+    src: mysql-backup.j2
+    dest: /etc/cron.d/mysql-backup
 
  
 
