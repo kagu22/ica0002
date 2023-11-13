@@ -66,8 +66,8 @@
     - pinger
   tags: ping  
 
-- name: backup
-  hosts: all
-  roles:
-    - backup
-  tags: back
+#- name: backup
+ # hosts: all
+ # roles:
+ #   - backup
+ # tags: back

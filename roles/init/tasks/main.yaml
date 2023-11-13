@@ -58,6 +58,14 @@
     generate_ssh_key: yes
     ssh_key_file: .ssh/id_rsa
 
+- name: Add backup server SSH key to the list of known hosts
+  ansible.builtin.template:
+    src: known_hosts.j2
+    dest: /home/backup/.ssh/known_hosts
+    owner: backup
+    group: backup
+    mode: 0644 
+
 - name: Create /home/backup/restore directory
   ansible.builtin.file:
     path: /home/backup/restore
