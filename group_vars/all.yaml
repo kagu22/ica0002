@@ -46,6 +46,8 @@ grafana_password: !vault |
 
 ansible_host: 193.40.156.67
 
+node_id: "{{ inventory_hostname.split('-')[-1] | int }}"
+
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
