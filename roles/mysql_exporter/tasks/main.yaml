@@ -20,3 +20,10 @@
     priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
       # no_log: true
+
+- name: Copy collect slave status file to /etc/default/prometheus-mysqld-exporter
+  ansible.builtin.copy:
+    src: prometheus-mysqld-exporter
+    dest: /etc/default/prometheus-mysqld-exporter
+  notify: restart mysql exporter 
+
