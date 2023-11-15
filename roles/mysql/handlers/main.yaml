@@ -17,7 +17,7 @@
     mode: "{{ item }}"
     primary_host: "{{ mysql_host }}"
     primary_user: "{{ mysql_replication_user }}"
-    primary_password: "{{ mysql_replication_password }}"
+    primary_password: "{{ mysql_replication_user_password }}"
     login_unix_socket: /var/run/mysqld/mysqld.sock
   loop:
     - stopreplica
