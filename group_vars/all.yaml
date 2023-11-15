@@ -48,6 +48,8 @@ ansible_host: 193.40.156.67
 
 node_id: "{{ inventory_hostname.split('-')[-1] | int }}"
 
+mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
+
 dns_forwarders:
   - 8.8.8.8
   - 1.1.1.1
