@@ -23,7 +23,9 @@
   roles:
     - mysql
     - mysql_exporter
-  tags: mysql
+  tags:
+    - mysql
+    - mx
 
 
 - name: Web server
@@ -33,7 +35,9 @@
     - uwsgi
       #- nginx
       #- nginx_exporter
-  tags: web
+  tags: 
+    - web
+    - mx
 
 - name: Nginx
   hosts: all
