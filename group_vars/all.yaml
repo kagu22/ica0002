@@ -1,5 +1,5 @@
 # mysql_host:  "{{ hostvars[vm2]['ansible_default_ipv4']['address'] }}"
-mysql_host: kagu22-2
+mysql_host: "{{ groups['db_servers'] | first }}"
 mysql_database: agama
 mysql_user: agama
 mysql_password: !vault |
