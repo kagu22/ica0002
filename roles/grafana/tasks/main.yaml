@@ -1,74 +1,45 @@
-- name: Create keyrings dir for grafana
+- name: Create Grafana directory
   ansible.builtin.file:
-    path: /etc/apt/keyrings
+    path: /opt/grafana
     state: directory
-    mode: 0755
 
-- name: Download GPG keys
-  ansible.builtin.apt_key:
-    url: https://packages.grafana.com/gpg.key
-    state: present
-
-- name: Add Grafana repository
-  ansible.builtin.apt_repository:
-    repo: "deb https://packages.grafana.com/oss/deb stable main"
-    state: present
-    filename: grafana
-
-- name: install Grafana
-  ansible.builtin.apt:
-    name: grafana
-      #state: present
-
-- name: Ensure that grafana is started and enabled
-  ansible.builtin.service:
-    name: grafana-server
-    state: started
-    enabled: true
-
-- name: Copy grafana.ini 
+- name: Copy Grafana conf
   ansible.builtin.template:
     src: grafana.ini.j2
-    dest: /etc/grafana/grafana.ini
-  notify: restart grafana
-  
-- name: Copy Datasources config to /etc/grafana
-  ansible.builtin.template:
-    src: datasources.yaml.j2
-    dest: /etc/grafana/provisioning/datasources/main.yaml
+    dest: /opt/grafana/grafana.ini
+  no_log: true
   notify: restart grafana
 
-- name: Copy Dashboards config to /etc/grafana
-  ansible.builtin.template:
-    src: dashboards.yaml.j2
-    dest: /etc/grafana/provisioning/dashboards/main.yaml
-  notify: restart grafana
-
-- name: Create directory /var/lib/grafana/dashboards
+- name: Create Dashboard and datasources directories
   ansible.builtin.file:
-    path: /var/lib/grafana/dashboards
+    path: "/opt/grafana/provisioning/{{ item }}"
     state: directory
+  loop: 
+    - dashboards
+    - datasources
 
-- name: Copy  main dashboard
-  ansible.builtin.copy:
-    src: main.json
-    dest: /var/lib/grafana/dashboards/main.json
+- name: Copy Dashboard, datasorces templates
+  ansible.builtin.template:
+    src: "{{ item }}.yaml.j2"
+    dest: "/opt/grafana/provisioning/{{ item }}/default.yaml"
+  loop:
+    - dashboards
+    - datasources
   notify: restart grafana
 
-- name: Copy syslog dashboard
+- name: Copy My Dashboards
   ansible.builtin.copy:
-    src: syslog.json
-    dest: /var/lib/grafana/dashboards/syslog.json
-  notify: restart grafana
+    src: "{{ item }}.json"
+    dest: "/opt/grafana/provisioning/dashboards/{{ item }}.json"
+  loop:
+    - main
+    - mysql
+    - syslog
+    
 
-- name: Copy mysql dashboard
-  ansible.builtin.copy:
-    src: mysql.json
-    dest: /var/lib/grafana/dashboards/mysql.json
-  notify: restart grafana
-   
-- name: Set Home dashboard
-  ansible.builtin.copy:
-    src: main.json
-    dest: /usr/share/grafana/public/dashboards/home.json 
-  notify: restart grafana 
+- name: Install Grafana Docker container
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana
+    published_ports: "{{ grafana_port }}:3000"
+    volumes: /opt/grafana:/etc/grafana

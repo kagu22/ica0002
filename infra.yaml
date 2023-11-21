@@ -55,7 +55,8 @@
 - name: grafana
   hosts: grafana
   roles:
-    -  grafana
+    - docker
+    - grafana
   tags: graf
 
 - name: influxdb

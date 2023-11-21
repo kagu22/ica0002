@@ -1,6 +1,6 @@
 - name: restart grafana
-  ansible.builtin.service:
-    name: grafana-server
-    state: restarted
-    enabled: true
-
+  community.docker.docker_container:
+    name: grafana
+    image: grafana/grafana
+    state: started
+    restart: true
