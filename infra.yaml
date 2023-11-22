@@ -31,8 +31,9 @@
 - name: Web server
   hosts: web_servers
   roles:
+    - docker
     - agama
-    - uwsgi
+      #- uwsgi
       #- nginx
       #- nginx_exporter
   tags: 
