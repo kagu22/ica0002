@@ -1,25 +1,28 @@
-- name: add user agama
-  ansible.builtin.user:
-    name: agama
-    system: yes
-
-- name: create opt/agama dir owned by agama
+- name: Create directory /opt/agama
   ansible.builtin.file:
     path: /opt/agama
     state: directory
-    owner: agama
-    group: agama
-    mode: 0755
 
-- name: install python3-flask-sqlalchemy
-  ansible.builtin.apt:
-    name:
-      - python3-flask-sqlalchemy
-      - python3-pymysql
-
-- name: download with get_url module this py
+- name: DDownolad Hudolejev Agama app files
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/hudolejev/agama/master/agama.py
-    dest: /opt/agama
-    mode: 0755
+    url: "{{ item.url }}"
+    dest: "/opt/agama/{{ item.dest }}"
+  loop:
+    - { url: 'https://raw.githubusercontent.com/hudolejev/agama/master/agama.py', dest: 'agama.py' }
+    - {url: 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', dest: 'Dockerfile' }
 
+- name: Build Agama docker image
+  community.docker.docker_image:
+    name: agama
+    source: build
+    build:
+      path: /opt/agama
+
+- name: Install und start Agama from container
+  community.docker.docker_container:
+    name: agama
+    image: agama
+    published_ports: "{{ agama_port }}:8000"
+    env:
+      AGAMA_DATABASE_URI=mysql+pymysql://{{mysql_user}}:{{mysql_password}}@{{mysql_host}}/{{mysql_database}}
+  no_log: true
