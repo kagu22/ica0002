@@ -51,8 +51,8 @@ node_id: "{{ inventory_hostname.split('-')[-1] | int }}"
 mysql_backup_host: "{{ groups['db_servers'] | reject('eq', mysql_host) | first | default(mysql_host) }}"
 
 grafana_port: 3001
-
 agama_port: 8001
+prometheus_port: 9090
 
 dns_forwarders:
   - 8.8.8.8

@@ -15,7 +15,10 @@ options {
             {{ f }};
       {% endfor %}  	
 	};
-        allow-query { mynet; };
+        allow-query { 
+          mynet;
+          172.17.0.0/16;
+        };
 	dnssec-validation no;
 };
 
