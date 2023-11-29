@@ -1,0 +1,32 @@
+- name: Install Keepalived
+  ansible.builtin.apt:
+    name: keepalived
+    state: latest
+
+- name:  Copy keepalived config to /etc/keepalived/keepalived.conf
+  ansible.builtin.template:
+    src: keepalived.conf.j2
+    dest: /etc/keepalived/keepalived.conf
+  notify: restart keepalived
+
+- name: Create user keepalived_script
+  ansible.builtin.user:
+    name: keepalived_script
+    shell: /bin/bash
+    create_home: true
+    home: /home/keepalived_script
+
+- name: Copy vrrp_script to /home/keepalived_script/vrrp_script
+  ansible.builtin.copy:
+    src: vrrp_script
+    dest: /home/keepalived_script/vrrp_script
+    mode: 0755
+  notify: restart keepalived
+    
+- name: Ensure that Keepalived is Started und Enabled
+  ansible.builtin.service:
+    name: keepalived
+    state: started
+    enabled: true
+
+

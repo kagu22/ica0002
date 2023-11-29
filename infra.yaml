@@ -72,6 +72,13 @@
     - pinger
   tags: ping  
 
+- name: keepalived
+  hosts: web_servers
+  roles:
+    - keepalived
+  tags: keep
+
+
 #- name: backup
  # hosts: all
  # roles:
