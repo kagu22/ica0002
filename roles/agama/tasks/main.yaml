@@ -20,9 +20,10 @@
 
 - name: Install und start Agama from container
   community.docker.docker_container:
-    name: agama
+    name: agama-{{ item }}
     image: agama
-    published_ports: "{{ agama_port }}:8000"
+    published_ports: "{{ agama_base_port + item }}:8000"
     env:
       AGAMA_DATABASE_URI=mysql+pymysql://{{mysql_user}}:{{mysql_password}}@{{mysql_host}}/{{mysql_database}}
-  no_log: true
+  loop: "{{ range(1, agama_container_count + 1) | list }}"
+    #no_log: true
