@@ -78,6 +78,12 @@
     - keepalived
   tags: keep
 
+- name: haproxy
+  hosts: web_servers
+  roles:
+    - haproxy
+  tags: hapr
+
 
 #- name: backup
  # hosts: all
