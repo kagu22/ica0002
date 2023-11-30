@@ -26,4 +26,4 @@
     env:
       AGAMA_DATABASE_URI=mysql+pymysql://{{mysql_user}}:{{mysql_password}}@{{mysql_host}}/{{mysql_database}}
   loop: "{{ range(1, agama_container_count + 1) | list }}"
-    #no_log: true
+  no_log: true

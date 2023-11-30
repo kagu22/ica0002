@@ -3,10 +3,10 @@
     name: haproxy
     state: latest
 
-- name: Copy haproxy.conf to /etc/haproxy/haproxy.cnf
+- name: Copy haproxy.conf to /etc/haproxy/haproxy.cfg
   ansible.builtin.template:
-    src: haproxy.cnf.j2
-    dest: /etc/haproxy/haproxy.cnf
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
   notify: restart haproxy
 
 - name: Ensure that HaProxy is started und enabled
