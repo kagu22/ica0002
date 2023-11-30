@@ -82,6 +82,7 @@
   hosts: web_servers
   roles:
     - haproxy
+    - haproxy_exporter
   tags: hapr
 
 
