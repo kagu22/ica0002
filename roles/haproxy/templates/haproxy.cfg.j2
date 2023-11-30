@@ -26,11 +26,14 @@ defaults
 
 listen my_ha_frontend
     bind :88
-    stats enable
-    stats uri /stats
     {% for vm in groups['web_servers'] -%}
     {% for count in range (1, agama_container_count + 1) -%}
     server {{ vm }}-agama-{{count}} {{ vm }}:{{ agama_base_port + count }} check
     {% endfor -%}
     {% endfor -%}
+
+listen stats
+    bind :9188
+    stats enable
+    stats uri /stats
 
