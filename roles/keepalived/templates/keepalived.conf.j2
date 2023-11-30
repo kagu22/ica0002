@@ -9,8 +9,13 @@ vrrp_instance agama {
     priority 100
     advert_int 1
     preempt                            
-    virtual_ipaddress {                     
-        192.168.100.33/24                   
+    virtual_ipaddress {
+	{% if (hostvars['kagu22-1']['ansible_default_ipv4']['address'] | split('.'))[2]  == '42' %}
+	{% set oct = 100 %} 
+        {% else %}
+        {% set oct = 101 %}
+        {% endif %}      
+        192.168.100.{{ hostvars['kagu22-1']['ansible_default_ipv4']['address'].split('.')[-1] }}/24     
     }
     unicast_peer {                          
         {% for vm in groups['web_servers'] -%}

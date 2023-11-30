@@ -24,8 +24,8 @@ defaults
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
 
-listen agama
-    bind *:88
+listen my_ha_frontend
+    bind :88
     stats enable
     stats uri /stats
     {% for vm in groups['web_servers'] -%}
@@ -33,3 +33,4 @@ listen agama
     server {{ vm }}-agama-{{count}} {{ vm }}:{{ agama_base_port + count }} check
     {% endfor -%}
     {% endfor -%}
+
