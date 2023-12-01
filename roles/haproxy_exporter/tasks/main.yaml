@@ -12,5 +12,5 @@
 - name: Ensure that haproxy exporter is started und enabled
   ansible.builtin.service:
     name: prometheus-haproxy-exporter
-    state: restarted
+    state: started
     enabled: true

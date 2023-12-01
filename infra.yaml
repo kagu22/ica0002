@@ -76,6 +76,7 @@
   hosts: web_servers
   roles:
     - keepalived
+    - keepalived_exporter
   tags: keep
 
 - name: haproxy
