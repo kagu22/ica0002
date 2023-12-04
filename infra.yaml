@@ -16,6 +16,8 @@
   hosts: resolvers
   roles:
     - resolvers
+  tags:
+    - reso
 
 
 - name: Database server
