@@ -25,6 +25,7 @@
     host: "%"
     login_unix_socket: /var/run/mysqld/mysqld.sock
     priv: "{{ mysql_database }}.*:ALL"
+  no_log: true
 
 - name: Ensure that MySql server is started and enabled
   ansible.builtin.service:
@@ -55,6 +56,7 @@
     host: "%"
     priv: "*.*:REPLICATION SLAVE"
     login_unix_socket: /var/run/mysqld/mysqld.sock
+  no_log: true
 
 - name: Copy my.cnf to /home/backup/.my.conf
   ansible.builtin.template:
