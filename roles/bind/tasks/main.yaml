@@ -35,4 +35,4 @@
     dest: /var/cache/bind/db.{{ domain_name }}
     force: no
   notify: reload rndc
-  when: inventory_hostname in groups['dns_masters'] 
+  #when: inventory_hostname in groups['dns_masters'] 
