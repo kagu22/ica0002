@@ -36,3 +36,9 @@
     force: no
   notify: reload rndc
   when: inventory_hostname in groups['dns_masters'] 
+
+- name: Copy reversed Zone file
+  ansible.builtin.template:
+    src: zone.reversed.j2
+    dest: /var/cache/bind/db.{{ domain }}.reversed
+  notify: reload rndc 

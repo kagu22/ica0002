@@ -89,7 +89,7 @@ localhost:
 
 domain_name: kaguu.rk
 domain: kaguu
-reversed_domain: 42.168.192.in-addr.arpa
+reversed_domain: 168.192.in-addr.arpa
 
 vm1: kagu22-1
 vm2: kagu22-2
