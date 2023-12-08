@@ -99,3 +99,18 @@ backup_server_ssh_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGE
 
 localhost_address: 127.0.0.1
 
+dns_a_records:
+  backup: "{{ backup_server_ip }}"
+
+dns_cname_records:
+  grafana: "{{ groups['grafana'][0] }}"
+  influxdb: "{{ groups['influxdb'][0] }}"
+  lb1: "{{ groups['haproxy'][0] }}"
+  lb2: "{{ groups['haproxy'][1] }}"
+  mysql1: "{{ groups['db_servers'][0] }}"
+  mysql2: "{{ groups['db_servers'][1] }}"
+  ns1: "{{ groups['dns_servers'][0] }}"
+  ns2: "{{ groups['dns_servers'][1] }}"
+  prometheus: "{{ groups['prometheus'][0] }}"
+  web1: "{{ groups['web_servers'][0] }}"
+  web2: "{{ groups['web_servers'][1] }}"

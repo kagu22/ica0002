@@ -1,3 +1,4 @@
+
 $TTL	604800
 {{ domain_name }}.	IN	SOA	vm2.{{ domain_name }}. tiit.{{ domain_name }}. (
 			      2		; Serial
@@ -14,4 +15,4 @@ $TTL	604800
 {% for vm in groups['all'] %}
 {{ vm }}        IN      A    {{ hostvars[vm]['ansible_default_ipv4']['address'] }}
 {% endfor %}
-backup IN  A  {{ backup_server_ip }}
+

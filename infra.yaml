@@ -12,6 +12,12 @@
     - bind_exporter
   tags: bind
 
+- name: DNS records
+  hosts: dns_masters
+  roles: 
+    - dns_records
+  tags: dns
+
 - name: Resolv.conf
   hosts: resolvers
   roles:
