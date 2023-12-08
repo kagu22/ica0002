@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 7,
+  "id": 4,
   "links": [],
   "liveNow": true,
   "panels": [
@@ -158,7 +158,7 @@
           "includeNullMetadata": false,
           "instant": false,
           "interval": "",
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "refId": "A",
           "useBackend": false
         }
@@ -224,7 +224,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "interval": "",
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -546,9 +546,11 @@
             "type": "prometheus",
             "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
           },
+          "editorMode": "code",
           "expr": "mysql_up",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -620,10 +622,12 @@
             "type": "prometheus",
             "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
           },
+          "editorMode": "code",
           "expr": "bind_up",
           "format": "time_series",
           "interval": "",
-          "legendFormat": "",
+          "legendFormat": "{{instance}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -695,9 +699,11 @@
             "type": "prometheus",
             "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
           },
+          "editorMode": "builder",
           "expr": "nginx_up",
           "interval": "",
           "legendFormat": "{{instance}}",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -1036,7 +1042,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -1128,7 +1134,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -1218,7 +1224,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -1306,7 +1312,7 @@
           "fullMetaSearch": false,
           "includeNullMetadata": true,
           "instant": false,
-          "legendFormat": "__auto",
+          "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A",
           "useBackend": false
@@ -1328,8 +1334,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "main 6.12",
-  "uid": "c2403e2e-77c0-4f81-89b1-d7070a253c44",
+  "title": "Main",
+  "uid": "b2878768-7c83-405b-901b-42cdf2aae62a",
   "version": 1,
   "weekStart": ""
 }
