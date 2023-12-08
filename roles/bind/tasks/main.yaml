@@ -41,4 +41,5 @@
   ansible.builtin.template:
     src: zone.reversed.j2
     dest: /var/cache/bind/db.reversed
-  notify: reload rndc 
+  notify: reload rndc
+  when: inventory_hostname in groups['dns_masters']
