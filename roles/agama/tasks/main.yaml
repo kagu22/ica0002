@@ -25,5 +25,6 @@
     published_ports: "{{ agama_base_port + item }}:8000"
     env:
       AGAMA_DATABASE_URI=mysql+pymysql://{{mysql_user}}:{{mysql_password}}@{{mysql_host}}/{{mysql_database}}
+    restart_policy: always
   loop: "{{ range(1, agama_container_count + 1) | list }}"
   no_log: true

@@ -1,12 +1,12 @@
 - name: Download InfluxDB deb package
   ansible.builtin.get_url:
     url: https://dl.influxdata.com/influxdb/releases/influxdb_1.8.10_amd64.deb
-    dest: /tmp/influxdb_1.8.10_amd64.deb
+    dest: /opt/influxdb_1.8.10_amd64.deb
     mode: '0644'
 
 - name: Install InfluxDB
   ansible.builtin.apt:
-    deb: /tmp/influxdb_1.8.10_amd64.deb
+    deb: /opt/influxdb_1.8.10_amd64.deb
     # state: present
 
 - name: Copy infuxdb conf to  /etc/influxdb/influxdb.conf
@@ -24,12 +24,12 @@
 - name: Download telegraf deb  package
   ansible.builtin.get_url:
     url: https://dl.influxdata.com/telegraf/releases/telegraf_1.28.2-1_amd64.deb
-    dest: /tmp/telegraf_1.28.2-1_amd64.deb
+    dest: /opt/telegraf_1.28.2-1_amd64.deb
     mode: 0644
 
 - name: Install Telegraf
   ansible.builtin.apt:
-    deb: /tmp/telegraf_1.28.2-1_amd64.deb
+    deb: /opt/telegraf_1.28.2-1_amd64.deb
 
 - name: Copy Telegraf conf to /etc/telegraf
   ansible.builtin.template:
