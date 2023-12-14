@@ -1,4 +1,4 @@
-{% for vm in groups['pinger'] -%}
+{% for vm in groups['grafana'] -%}
 database_url=http://{{ vm }}:8086
 {% endfor -%}
 database_name=latency

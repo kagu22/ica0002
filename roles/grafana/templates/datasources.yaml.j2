@@ -8,7 +8,7 @@ datasources:
    orgId: 1
    uid: b111c13e-f3f2-448a-87c1-01bfc6574d9c
    {% for vm in groups['prometheus'] -%}
-   url: http://{{ vm }}/prometheus
+   url: http://prometheus/prometheus
    {% endfor -%}
    version: 1
    editable: true
@@ -18,7 +18,7 @@ datasources:
    access: proxy
    orgId: 1
    {% for vm in groups['influxdb'] -%}
-   url: http://{{ vm }}:8086
+   url: http://influxdb:8086
    {% endfor -%}
    #user:
    #password:
@@ -29,7 +29,7 @@ datasources:
    type: influxdb
    access: proxy
    {% for vm in groups['influxdb'] -%}
-   url: http://{{ vm }}:8086
+   url: http://influxdb:8086
    {% endfor -%}
    #user:
    #password:
