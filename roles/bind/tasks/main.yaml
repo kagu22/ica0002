@@ -30,16 +30,17 @@
   notify: restart bind9 
 
 - name: Copy Zone file
+  when: inventory_hostname in groups['dns_masters']
   ansible.builtin.template:
     src: zone.j2
     dest: /var/cache/bind/db.{{ domain_name }}
     force: no
-  notify: reload rndc
-  when: inventory_hostname in groups['dns_masters'] 
+  notify: reload rndc 
 
 - name: Copy reversed Zone file
+  when: inventory_hostname in groups['dns_masters']
   ansible.builtin.template:
     src: zone.reversed.j2
     dest: /var/cache/bind/db.reversed
   notify: reload rndc
-  when: inventory_hostname in groups['dns_masters']
+  
