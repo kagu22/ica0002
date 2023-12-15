@@ -7,7 +7,7 @@
     group: root
     mode: 0640
   # notify: restart mysql exporter
-  # no_log: true
+  no_log: true
 
 - name: Install MySQL exporter
   ansible.builtin.apt:
@@ -20,7 +20,7 @@
     password: "{{ mysql_exporter_password }}"
     priv: "*.*:PROCESS,REPLICATION CLIENT,SELECT"
     login_unix_socket: /var/run/mysqld/mysqld.sock
-      # no_log: true
+  no_log: true
 
 - name: Copy collect slave status file to /etc/default/prometheus-mysqld-exporter
   ansible.builtin.copy:
