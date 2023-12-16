@@ -31,24 +31,23 @@ scrape_configs:
   - job_name: 'mysql'
     static_configs:
       - targets:
-        {% for vm in groups['db_servers'] %}- {{ vm }}:9104
-        {% endfor %}
+        - mysql-1.{{ domain_name }}:9104
+        - mysql-2.{{ domain_name }}:9104
 
   - job_name: influx
     static_configs:
       - targets:
-        {% for vm in groups['influxdb'] -%}
-        - {{ vm }}:8086
-        {% endfor %}
+        - influxdb.{{ domain_name }}:8086
 
   - job_name: 'haproxy'
     static_configs:
       - targets:
-        {% for vm in groups['web_servers'] %}- {{ vm }}:9101
-        {% endfor %}
+        - lb-1.{{ domain_name }}:9101
+        - lb-2.{{ domain_name }}:9101
 
   - job_name: 'keepalived'
     static_configs:
       - targets:
-        {% for vm in groups['web_servers'] %}- {{ vm }}:9165
-        {% endfor %}
+        - lb-1.{{ domain_name }}:9165
+        - lb-2.{{ domain_name }}:9165
+        
