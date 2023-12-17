@@ -1,19 +1,19 @@
-P 17 dets  2023 13:50:51 EET
+K 13 dets  2023 08:48:48 EET
 + hostname
-kagu-vm
+ubuntu-vm
 + ansible-playbook infra.yaml --diff
 
 PLAY [Initial setup] ***********************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [init : Update APT cache] *************************************************
-changed: [kagu22-3]
 changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-3]
 
 TASK [init : Install Prometheus Node Exporters] ********************************
 The following additional packages will be installed:
@@ -26,7 +26,7 @@ The following NEW packages will be installed:
   moreutils prometheus-node-exporter prometheus-node-exporter-collectors
   smartmontools
 0 upgraded, 8 newly installed, 0 to remove and 265 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 The following additional packages will be installed:
   libio-pty-perl libipc-run-perl libtime-duration-perl libtimedate-perl
   moreutils prometheus-node-exporter-collectors smartmontools
@@ -48,21 +48,21 @@ The following NEW packages will be installed:
   moreutils prometheus-node-exporter prometheus-node-exporter-collectors
   smartmontools
 0 upgraded, 8 newly installed, 0 to remove and 265 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [init : Install present  ca-certificates=20230311] ************************
 The following packages will be upgraded:
   ca-certificates
 1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
+changed: [kagu22-3]
+The following packages will be upgraded:
+  ca-certificates
+1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
 changed: [kagu22-2]
 The following packages will be upgraded:
   ca-certificates
 1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
 changed: [kagu22-1]
-The following packages will be upgraded:
-  ca-certificates
-1 upgraded, 0 newly installed, 0 to remove and 264 not upgraded.
-changed: [kagu22-3]
 
 TASK [init : Install Rsyslog] **************************************************
 Suggested packages:
@@ -71,13 +71,6 @@ Suggested packages:
 The following packages will be upgraded:
   rsyslog
 1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
-changed: [kagu22-2]
-Suggested packages:
-  rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
-  | rsyslog-gnutls rsyslog-gssapi rsyslog-relp
-The following packages will be upgraded:
-  rsyslog
-1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
 changed: [kagu22-3]
 Suggested packages:
   rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
@@ -86,10 +79,31 @@ The following packages will be upgraded:
   rsyslog
 1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
 changed: [kagu22-1]
+Suggested packages:
+  rsyslog-mysql | rsyslog-pgsql rsyslog-mongodb rsyslog-doc rsyslog-openssl
+  | rsyslog-gnutls rsyslog-gssapi rsyslog-relp
+The following packages will be upgraded:
+  rsyslog
+1 upgraded, 0 newly installed, 0 to remove and 263 not upgraded.
+changed: [kagu22-2]
 
 TASK [init : Copy telegraf.conf to /etc/rsyslog.d/] ****************************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp6c_z9lwp/50-telegraf.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpu6tp7v5u/50-telegraf.conf.j2
+@@ -0,0 +1,9 @@
++
++$ActionQueueType LinkedList # use asynchronous processing
++$ActionQueueFileName srvrfwd # set file name, also enables disk mode
++$ActionResumeRetryCount -1 # infinite retries on insert failure
++$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
++
++*.* @kagu22-1:6514;RSYSLOG_SyslogProtocol23Format
++*.* @kagu22-2:6514;RSYSLOG_SyslogProtocol23Format
++*.* @kagu22-3:6514;RSYSLOG_SyslogProtocol23Format
+
+changed: [kagu22-2]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpzagc6e42/50-telegraf.conf.j2
 @@ -0,0 +1,9 @@
 +
 +$ActionQueueType LinkedList # use asynchronous processing
@@ -103,7 +117,7 @@ TASK [init : Copy telegraf.conf to /etc/rsyslog.d/] ****************************
 
 changed: [kagu22-3]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp613cp1y8/50-telegraf.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmph40xajj4/50-telegraf.conf.j2
 @@ -0,0 +1,9 @@
 +
 +$ActionQueueType LinkedList # use asynchronous processing
@@ -116,34 +130,28 @@ changed: [kagu22-3]
 +*.* @kagu22-3:6514;RSYSLOG_SyslogProtocol23Format
 
 changed: [kagu22-1]
---- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpqfx8a4yl/50-telegraf.conf.j2
-@@ -0,0 +1,9 @@
-+
-+$ActionQueueType LinkedList # use asynchronous processing
-+$ActionQueueFileName srvrfwd # set file name, also enables disk mode
-+$ActionResumeRetryCount -1 # infinite retries on insert failure
-+$ActionQueueSaveOnShutdown on # save in-memory data if rsyslog shuts down
-+
-+*.* @kagu22-1:6514;RSYSLOG_SyslogProtocol23Format
-+*.* @kagu22-2:6514;RSYSLOG_SyslogProtocol23Format
-+*.* @kagu22-3:6514;RSYSLOG_SyslogProtocol23Format
-
-changed: [kagu22-2]
 
 TASK [init : Ensure that Rsyslog is started und enabled] ***********************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [init : Create user Backup] ***********************************************
-changed: [kagu22-1]
 changed: [kagu22-2]
 changed: [kagu22-3]
+changed: [kagu22-1]
 
 TASK [init : Add backup server SSH key to the list of known hosts] *************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpb8nv2s6n/known_hosts.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpont6rqav/known_hosts.j2
+@@ -0,0 +1,3 @@
++192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
++backup.kaguu.rk ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
+
+changed: [kagu22-3]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpp40haw_b/known_hosts.j2
 @@ -0,0 +1,3 @@
 +192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 +backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
@@ -151,21 +159,13 @@ TASK [init : Add backup server SSH key to the list of known hosts] *************
 
 changed: [kagu22-2]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpw8becsff/known_hosts.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpc9aukfzs/known_hosts.j2
 @@ -0,0 +1,3 @@
 +192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 +backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 +backup.kaguu.rk ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
 
 changed: [kagu22-1]
---- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpmkawnvd1/known_hosts.j2
-@@ -0,0 +1,3 @@
-+192.168.42.132 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
-+backup ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
-+backup.kaguu.rk ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEu6pFFWyuRrl4WGFPQGElYN9txwTGm2wSntcpVAaN90
-
-changed: [kagu22-3]
 
 TASK [init : Create /home/backup/restore directory] ****************************
 --- before
@@ -183,22 +183,6 @@ TASK [init : Create /home/backup/restore directory] ****************************
 +    "state": "directory"
  }
 
-changed: [kagu22-2]
---- before
-+++ after
-@@ -1,7 +1,7 @@
- {
--    "group": 0,
--    "mode": "0755",
--    "owner": 0,
-+    "group": 34,
-+    "mode": "0750",
-+    "owner": 34,
-     "path": "/home/backup/restore",
--    "state": "absent"
-+    "state": "directory"
- }
-
 changed: [kagu22-1]
 --- before
 +++ after
@@ -216,6 +200,22 @@ changed: [kagu22-1]
  }
 
 changed: [kagu22-3]
+--- before
++++ after
+@@ -1,7 +1,7 @@
+ {
+-    "group": 0,
+-    "mode": "0755",
+-    "owner": 0,
++    "group": 34,
++    "mode": "0750",
++    "owner": 34,
+     "path": "/home/backup/restore",
+-    "state": "absent"
++    "state": "directory"
+ }
+
+changed: [kagu22-2]
 
 TASK [init : Install Duplicity] ************************************************
 The following additional packages will be installed:
@@ -228,7 +228,7 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 263 not upgraded.
-changed: [kagu22-3]
+changed: [kagu22-2]
 The following additional packages will be installed:
   librsync2 python3-bcrypt python3-fasteners python3-future python3-lockfile
   python3-monotonic python3-paramiko
@@ -250,34 +250,34 @@ The following NEW packages will be installed:
   duplicity librsync2 python3-bcrypt python3-fasteners python3-future
   python3-lockfile python3-monotonic python3-paramiko
 0 upgraded, 8 newly installed, 0 to remove and 263 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-3]
 
 RUNNING HANDLER [init : restart rsyslog] ***************************************
-changed: [kagu22-2]
 changed: [kagu22-3]
+changed: [kagu22-2]
 changed: [kagu22-1]
 
 PLAY [DNS Server] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [bind : Get variables] ****************************************************
+ok: [kagu22-3]
 ok: [kagu22-1]
 ok: [kagu22-2]
-ok: [kagu22-3]
 
 TASK [bind : See what variables collected] *************************************
 ok: [kagu22-3] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-1] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-2] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 
 TASK [bind : Install Bind9] ****************************************************
@@ -290,7 +290,7 @@ The following NEW packages will be installed:
 The following packages will be upgraded:
   bind9-dnsutils bind9-libs
 2 upgraded, 4 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-3]
 The following additional packages will be installed:
   bind9-dnsutils bind9-libs bind9-utils dns-root-data python3-ply
 Suggested packages:
@@ -310,48 +310,21 @@ The following NEW packages will be installed:
 The following packages will be upgraded:
   bind9-dnsutils bind9-libs
 2 upgraded, 4 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-3]
+changed: [kagu22-2]
 
 TASK [bind : Verify that bind is started and enabled] **************************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind : Copy named.conf.options to /etc/bind] *****************************
+changed: [kagu22-3]
 changed: [kagu22-1]
 changed: [kagu22-2]
-changed: [kagu22-3]
 
 TASK [bind : Copy named.conf.local to /etc/bind] *******************************
 --- before: /etc/bind/named.conf.local
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpu0juxz_q/named.conf.local.j2
-@@ -1,8 +1,16 @@
--//
--// Do any local configuration here
--//
- 
--// Consider adding the 1918 zones here, if they are not used in your
--// organization
--//include "/etc/bind/zones.rfc1918";
-+zone "kaguu.rk" {
-+type slave;
-+    masters { 192.168.42.55; };
-+file "db.kaguu.rk";
-+};
- 
-+zone "168.192.in-addr.arpa" {
-+type slave;
-+    masters { 192.168.42.55; };
-+file "db.reversed";
-+};
-+
-+server 192.168.42.55 {
-+    keys { dns_transfer_key; };
-+};
-
-changed: [kagu22-2]
---- before: /etc/bind/named.conf.local
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmplf3wkbwr/named.conf.local.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpd8pd0yt5/named.conf.local.j2
 @@ -1,8 +1,15 @@
 -//
 -// Do any local configuration here
@@ -377,7 +350,7 @@ changed: [kagu22-2]
 
 changed: [kagu22-3]
 --- before: /etc/bind/named.conf.local
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpi3xjw7nx/named.conf.local.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpybgcx62i/named.conf.local.j2
 @@ -1,8 +1,16 @@
 -//
 -// Do any local configuration here
@@ -388,27 +361,54 @@ changed: [kagu22-3]
 -//include "/etc/bind/zones.rfc1918";
 +zone "kaguu.rk" {
 +type slave;
-+    masters { 192.168.42.55; };
++    masters { 192.168.42.30; };
 +file "db.kaguu.rk";
 +};
  
 +zone "168.192.in-addr.arpa" {
 +type slave;
-+    masters { 192.168.42.55; };
++    masters { 192.168.42.30; };
 +file "db.reversed";
 +};
 +
-+server 192.168.42.55 {
++server 192.168.42.30 {
 +    keys { dns_transfer_key; };
 +};
 
 changed: [kagu22-1]
+--- before: /etc/bind/named.conf.local
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp777g9u6e/named.conf.local.j2
+@@ -1,8 +1,16 @@
+-//
+-// Do any local configuration here
+-//
+ 
+-// Consider adding the 1918 zones here, if they are not used in your
+-// organization
+-//include "/etc/bind/zones.rfc1918";
++zone "kaguu.rk" {
++type slave;
++    masters { 192.168.42.30; };
++file "db.kaguu.rk";
++};
+ 
++zone "168.192.in-addr.arpa" {
++type slave;
++    masters { 192.168.42.30; };
++file "db.reversed";
++};
++
++server 192.168.42.30 {
++    keys { dns_transfer_key; };
++};
+
+changed: [kagu22-2]
 
 TASK [bind : Copy Zone file] ***************************************************
 skipping: [kagu22-1]
 skipping: [kagu22-2]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp7easc4yo/zone.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp4xu8tjqn/zone.j2
 @@ -0,0 +1,18 @@
 +
 +$TTL	604800
@@ -424,9 +424,9 @@ skipping: [kagu22-2]
 +kaguu.rk.	IN	NS	kagu22-1
 +kaguu.rk.	IN	NS	kagu22-2
 +
-+kagu22-1        IN      A    192.168.42.126
-+kagu22-2        IN      A    192.168.42.98
-+kagu22-3        IN      A    192.168.42.55
++kagu22-1        IN      A    192.168.42.123
++kagu22-2        IN      A    192.168.42.63
++kagu22-3        IN      A    192.168.42.30
 +
 
 changed: [kagu22-3]
@@ -435,7 +435,7 @@ TASK [bind : Copy reversed Zone file] ******************************************
 skipping: [kagu22-1]
 skipping: [kagu22-2]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpmm6hysl5/zone.reversed.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpu6ox14ya/zone.reversed.j2
 @@ -0,0 +1,16 @@
 +$TTL	604800
 +168.192.in-addr.arpa.	IN	SOA	vm2.kaguu.rk. tiit.kaguu.rk. (
@@ -450,9 +450,9 @@ skipping: [kagu22-2]
 +168.192.in-addr.arpa.	IN	NS	kagu22-1.kaguu.rk.
 +168.192.in-addr.arpa.	IN	NS	kagu22-2.kaguu.rk.
 +
-+126.42	IN	PTR	kagu22-1.kaguu.rk.
-+98.42	IN	PTR	kagu22-2.kaguu.rk.
-+55.42	IN	PTR	kagu22-3.kaguu.rk.
++123.42	IN	PTR	kagu22-1.kaguu.rk.
++63.42	IN	PTR	kagu22-2.kaguu.rk.
++30.42	IN	PTR	kagu22-3.kaguu.rk.
 
 changed: [kagu22-3]
 
@@ -460,11 +460,11 @@ TASK [bind_exporter : Install Prometheus Bind exporter] ************************
 The following NEW packages will be installed:
   prometheus-bind-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-3]
 The following NEW packages will be installed:
   prometheus-bind-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-3]
+changed: [kagu22-2]
 The following NEW packages will be installed:
   prometheus-bind-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
@@ -472,13 +472,13 @@ changed: [kagu22-1]
 
 TASK [bind_exporter : Ensure bind exported is started and enabled] *************
 ok: [kagu22-3]
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 RUNNING HANDLER [bind : restart bind9] *****************************************
-changed: [kagu22-3]
 changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-3]
 
 RUNNING HANDLER [bind : reload rndc] *******************************************
 changed: [kagu22-3]
@@ -495,38 +495,36 @@ The following NEW packages will be installed:
 changed: [kagu22-3]
 
 TASK [dns_records : Set A Records] *********************************************
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3]
+changed: [kagu22-3] => (item={'key': 'backup', 'value': '192.168.42.132'})
 
 TASK [dns_records : Set CNAME Records] *****************************************
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3] => (item=None)
-changed: [kagu22-3]
+changed: [kagu22-3] => (item={'key': 'grafana', 'value': 'kagu22-3'})
+changed: [kagu22-3] => (item={'key': 'influxdb', 'value': 'kagu22-3'})
+changed: [kagu22-3] => (item={'key': 'lb1', 'value': 'kagu22-1'})
+changed: [kagu22-3] => (item={'key': 'lb2', 'value': 'kagu22-2'})
+changed: [kagu22-3] => (item={'key': 'mysql1', 'value': 'kagu22-1'})
+changed: [kagu22-3] => (item={'key': 'mysql2', 'value': 'kagu22-2'})
+changed: [kagu22-3] => (item={'key': 'ns1', 'value': 'kagu22-3'})
+changed: [kagu22-3] => (item={'key': 'ns2', 'value': 'kagu22-1'})
+changed: [kagu22-3] => (item={'key': 'prometheus', 'value': 'kagu22-3'})
+changed: [kagu22-3] => (item={'key': 'web1', 'value': 'kagu22-1'})
+changed: [kagu22-3] => (item={'key': 'web2', 'value': 'kagu22-2'})
 
 PLAY [Resolv.conf] *************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-1]
 ok: [kagu22-3]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [resolvers : stop resolved service] ***************************************
 changed: [kagu22-1]
-changed: [kagu22-2]
 changed: [kagu22-3]
+changed: [kagu22-2]
 
 TASK [resolvers : Copy resolv.conf file] ***************************************
 --- before: /etc/resolv.conf
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpibq3fef8/resolv.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpjdvj125s/resolv.conf.j2
 @@ -1,19 +1,3 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -547,13 +545,13 @@ TASK [resolvers : Copy resolv.conf file] ***************************************
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.126
-+nameserver 192.168.42.98
++nameserver 192.168.42.123
++nameserver 192.168.42.63
 +search kaguu.rk
 
-changed: [kagu22-2]
+changed: [kagu22-3]
 --- before: /etc/resolv.conf
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpjwyjbj8j/resolv.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpedovx6jo/resolv.conf.j2
 @@ -1,19 +1,3 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -574,13 +572,13 @@ changed: [kagu22-2]
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.126
-+nameserver 192.168.42.98
++nameserver 192.168.42.123
++nameserver 192.168.42.63
 +search kaguu.rk
 
 changed: [kagu22-1]
 --- before: /etc/resolv.conf
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmprkcqmzyw/resolv.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpigbvclbs/resolv.conf.j2
 @@ -1,19 +1,3 @@
 -# This file is managed by man:systemd-resolved(8). Do not edit.
 -#
@@ -601,11 +599,11 @@ changed: [kagu22-1]
 -nameserver 127.0.0.53
 -options edns0 trust-ad
 -search openstacklocal
-+nameserver 192.168.42.126
-+nameserver 192.168.42.98
++nameserver 192.168.42.123
++nameserver 192.168.42.63
 +search kaguu.rk
 
-changed: [kagu22-3]
+changed: [kagu22-2]
 
 PLAY [Database server] *********************************************************
 
@@ -631,7 +629,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0
 0 upgraded, 24 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 The following additional packages will be installed:
   libcgi-fast-perl libcgi-pm-perl libencode-locale-perl libevent-core-2.1-7
   libevent-pthreads-2.1-7 libfcgi-perl libhtml-parser-perl libhtml-tagset-perl
@@ -649,7 +647,7 @@ The following NEW packages will be installed:
   mecab-utils mysql-client-8.0 mysql-client-core-8.0 mysql-common mysql-server
   mysql-server-8.0 mysql-server-core-8.0
 0 upgraded, 24 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [mysql : Install python3-pymysql] *****************************************
 Suggested packages:
@@ -667,18 +665,7 @@ changed: [kagu22-1]
 
 TASK [mysql : copy override.cnf to mysql conf] *********************************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp2oqk7s3n/override.cnf.j2
-@@ -0,0 +1,6 @@
-+[mysqld]
-+bind-address = 0.0.0.0
-+log-bin = /var/log/mysql/mysql-bin.log
-+relay-log = /var/log/mysql/mysql-relay.log
-+replicate-do-db = agama
-+server-id = 1
-
-changed: [kagu22-1]
---- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpe_3by8lx/override.cnf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpqx9spjkk/override.cnf.j2
 @@ -0,0 +1,6 @@
 +[mysqld]
 +bind-address = 0.0.0.0
@@ -688,6 +675,17 @@ changed: [kagu22-1]
 +server-id = 2
 
 changed: [kagu22-2]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmphxxmver5/override.cnf.j2
+@@ -0,0 +1,6 @@
++[mysqld]
++bind-address = 0.0.0.0
++log-bin = /var/log/mysql/mysql-bin.log
++relay-log = /var/log/mysql/mysql-relay.log
++replicate-do-db = agama
++server-id = 1
+
+changed: [kagu22-1]
 
 TASK [mysql : MySQL database] **************************************************
 changed: [kagu22-2]
@@ -740,12 +738,12 @@ changed: [kagu22-2]
 changed: [kagu22-1]
 
 TASK [mysql : Create MqSQL user for replication] *******************************
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [mysql : Copy my.cnf to /home/backup/.my.conf] ****************************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp6axf2pfo/backup.cnf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp87copvve/backup.cnf.j2
 @@ -0,0 +1,6 @@
 +[client]
 +user=backup
@@ -756,7 +754,7 @@ TASK [mysql : Copy my.cnf to /home/backup/.my.conf] ****************************
 
 changed: [kagu22-2]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmprc0a8awt/backup.cnf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp9ag5uqm6/backup.cnf.j2
 @@ -0,0 +1,6 @@
 +[client]
 +user=backup
@@ -769,27 +767,41 @@ changed: [kagu22-1]
 
 TASK [mysql : Copy Crontab file  to /etc/cron.d/mysql-backup] ******************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpjshsn48c/mysql-backup.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpijh_cfmu/mysql-backup.j2
+@@ -0,0 +1 @@
++
+
+changed: [kagu22-1]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmprfp_dnah/mysql-backup.j2
 @@ -0,0 +1,3 @@
 +45 21 * * *  backup mysqldump agama > /home/backup/mysql/agama.sql
 +50 21 * * 0  backup duplicity --no-encryption full /home/backup/mysql/ rsync://kagu22@backup.kaguu.rk//home/kagu22/mysql
 +55 21 * * *  backup duplicity --no-encryption incremental /home/backup/mysql/ rsync://kagu22@backup.kaguu.rk//home/kagu22/mysql
 
 changed: [kagu22-2]
---- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpe1sar6hi/mysql-backup.j2
-@@ -0,0 +1 @@
-+
-
-changed: [kagu22-1]
 
 TASK [mysql : Set one MySQL to read only mode] *********************************
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [mysql_exporter : Copy my.cnf to /var/lib/prometheus] *********************
-changed: [kagu22-1]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpkj104fnt/my.cnf.j2
+@@ -0,0 +1,3 @@
++[client]
++user = prometheus
++password=177dMc19qKhKr
+
 changed: [kagu22-2]
+--- before
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpyev3h8n5/my.cnf.j2
+@@ -0,0 +1,3 @@
++[client]
++user = prometheus
++password=177dMc19qKhKr
+
+changed: [kagu22-1]
 
 TASK [mysql_exporter : Install MySQL exporter] *********************************
 The following additional packages will be installed:
@@ -797,17 +809,17 @@ The following additional packages will be installed:
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 The following additional packages will be installed:
   daemon
 The following NEW packages will be installed:
   daemon prometheus-mysqld-exporter
 0 upgraded, 2 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [mysql_exporter : Create MySQL exporter user] *****************************
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [mysql_exporter : Copy collect slave status file to /etc/default/prometheus-mysqld-exporter] ***
 --- before: /etc/default/prometheus-mysqld-exporter
@@ -935,7 +947,7 @@ TASK [mysql_exporter : Copy collect slave status file to /etc/default/prometheus
 -#       "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
 +ARGS="--collect.slave_status"
 
-changed: [kagu22-2]
+changed: [kagu22-1]
 --- before: /etc/default/prometheus-mysqld-exporter
 +++ after: /home/kagu/ica0002/roles/mysql_exporter/files/prometheus-mysqld-exporter
 @@ -1,120 +1 @@
@@ -1061,7 +1073,7 @@ changed: [kagu22-2]
 -#       "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
 +ARGS="--collect.slave_status"
 
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 RUNNING HANDLER [mysql : restart mysql] ****************************************
 changed: [kagu22-1]
@@ -1090,8 +1102,8 @@ changed: [kagu22-2]
 PLAY [Web server] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [docker : Install Docker] *************************************************
 The following additional packages will be installed:
@@ -1104,7 +1116,7 @@ The following NEW packages will be installed:
   bridge-utils containerd dnsmasq-base docker.io libidn11 pigz python3-docker
   python3-websocket runc ubuntu-fan
 0 upgraded, 10 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 The following additional packages will be installed:
   bridge-utils containerd dnsmasq-base libidn11 pigz python3-websocket runc
   ubuntu-fan
@@ -1115,11 +1127,11 @@ The following NEW packages will be installed:
   bridge-utils containerd dnsmasq-base docker.io libidn11 pigz python3-docker
   python3-websocket runc ubuntu-fan
 0 upgraded, 10 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [docker : Ensure that Docker is started] **********************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [agama : Create directory /opt/agama] *************************************
 --- before
@@ -1150,22 +1162,26 @@ changed: [kagu22-2] => (item={'url': 'https://raw.githubusercontent.com/hudoleje
 changed: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', 'dest': 'Dockerfile'})
 
 TASK [agama : Build Agama docker image] ****************************************
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [agama : Install und start Agama from container] **************************
+changed: [kagu22-1] => (item=None)
 changed: [kagu22-2] => (item=None)
 changed: [kagu22-1] => (item=None)
 changed: [kagu22-2] => (item=None)
-changed: [kagu22-2]
+changed: [kagu22-1] => (item=None)
+changed: [kagu22-2] => (item=None)
 changed: [kagu22-1] => (item=None)
 changed: [kagu22-1]
+changed: [kagu22-2] => (item=None)
+changed: [kagu22-2]
 
 PLAY [Nginx] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [nginx : install nginx] ***************************************************
@@ -1182,7 +1198,7 @@ The following NEW packages will be installed:
   libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-3]
+changed: [kagu22-2]
 The following additional packages will be installed:
   fontconfig-config fonts-dejavu-core libfontconfig1 libgd3 libjbig0
   libjpeg-turbo8 libjpeg8 libnginx-mod-http-image-filter
@@ -1210,7 +1226,7 @@ The following NEW packages will be installed:
   libnginx-mod-http-xslt-filter libnginx-mod-mail libnginx-mod-stream libtiff5
   libwebp6 libxpm4 nginx nginx-common nginx-core
 0 upgraded, 17 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-3]
 
 TASK [nginx : Install Prometheus Nginx Exporter] *******************************
 The following NEW packages will be installed:
@@ -1220,237 +1236,25 @@ changed: [kagu22-3]
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 The following NEW packages will be installed:
   prometheus-nginx-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [nginx : Ensure that Nginx service is started and enabled] ****************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [nginx : Ensure that nginx exporter is started und enabled] ***************
-changed: [kagu22-3]
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
+changed: [kagu22-3]
 
 TASK [nginx : replace the /etc/nginx/sites-enabled/default with my copy] *******
 --- before: /etc/nginx/sites-enabled/default
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp2oq5p8b0/default.j2
-@@ -1,91 +1,21 @@
--##
--# You should look at the following URL's in order to grasp a solid understanding
--# of Nginx configuration files in order to fully unleash the power of Nginx.
--# https://www.nginx.com/resources/wiki/start/
--# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
--# https://wiki.debian.org/Nginx/DirectoryStructure
--#
--# In most cases, administrators will remove this file from sites-enabled/ and
--# leave it as reference inside of sites-available where it will continue to be
--# updated by the nginx packaging team.
--#
--# This file will automatically load configuration files provided by other
--# applications, such as Drupal or Wordpress. These applications will be made
--# available underneath a path with that package name, such as /drupal8.
--#
--# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
--##
- 
--# Default server configuration
--#
- server {
- 	listen 80 default_server;
--	listen [::]:80 default_server;
--
--	# SSL configuration
--	#
--	# listen 443 ssl default_server;
--	# listen [::]:443 ssl default_server;
--	#
--	# Note: You should disable gzip for SSL traffic.
--	# See: https://bugs.debian.org/773332
--	#
--	# Read up on ssl_ciphers to ensure a secure configuration.
--	# See: https://bugs.debian.org/765782
--	#
--	# Self signed certs generated by the ssl-cert package
--	# Don't use them in a production server!
--	#
--	# include snippets/snakeoil.conf;
--
--	root /var/www/html;
--
--	# Add index.php to the list if you are using PHP
--	index index.html index.htm index.nginx-debian.html;
--
- 	server_name _;
- 
- 	location / {
--		# First attempt to serve request as file, then
--		# as directory, then fall back to displaying a 404.
--		try_files $uri $uri/ =404;
-+		proxy_pass http://localhost:8001;
-+		proxy_set_header Host $http_host;
-+	}
-+	
-+		
- 	}
- 
--	# pass PHP scripts to FastCGI server
--	#
--	#location ~ \.php$ {
--	#	include snippets/fastcgi-php.conf;
--	#
--	#	# With php-fpm (or other unix sockets):
--	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
--	#	# With php-cgi (or other tcp sockets):
--	#	fastcgi_pass 127.0.0.1:9000;
--	#}
- 
--	# deny access to .htaccess files, if Apache's document root
--	# concurs with nginx's one
--	#
--	#location ~ /\.ht {
--	#	deny all;
--	#}
-+server {
-+    listen 8080 default_server;
-+    location = /stub_status {
-+        stub_status;
-+    }
- }
- 
--
--# Virtual Host configuration for example.com
--#
--# You can move that to a different file under sites-available/ and symlink that
--# to sites-enabled/ to enable it.
--#
--#server {
--#	listen 80;
--#	listen [::]:80;
--#
--#	server_name example.com;
--#
--#	root /var/www/example.com;
--#	index index.html;
--#
--#	location / {
--#		try_files $uri $uri/ =404;
--#	}
--#}
-
-changed: [kagu22-1]
---- before: /etc/nginx/sites-enabled/default
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp_fg0y08j/default.j2
-@@ -1,91 +1,21 @@
--##
--# You should look at the following URL's in order to grasp a solid understanding
--# of Nginx configuration files in order to fully unleash the power of Nginx.
--# https://www.nginx.com/resources/wiki/start/
--# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
--# https://wiki.debian.org/Nginx/DirectoryStructure
--#
--# In most cases, administrators will remove this file from sites-enabled/ and
--# leave it as reference inside of sites-available where it will continue to be
--# updated by the nginx packaging team.
--#
--# This file will automatically load configuration files provided by other
--# applications, such as Drupal or Wordpress. These applications will be made
--# available underneath a path with that package name, such as /drupal8.
--#
--# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
--##
- 
--# Default server configuration
--#
- server {
- 	listen 80 default_server;
--	listen [::]:80 default_server;
--
--	# SSL configuration
--	#
--	# listen 443 ssl default_server;
--	# listen [::]:443 ssl default_server;
--	#
--	# Note: You should disable gzip for SSL traffic.
--	# See: https://bugs.debian.org/773332
--	#
--	# Read up on ssl_ciphers to ensure a secure configuration.
--	# See: https://bugs.debian.org/765782
--	#
--	# Self signed certs generated by the ssl-cert package
--	# Don't use them in a production server!
--	#
--	# include snippets/snakeoil.conf;
--
--	root /var/www/html;
--
--	# Add index.php to the list if you are using PHP
--	index index.html index.htm index.nginx-debian.html;
--
- 	server_name _;
- 
- 	location / {
--		# First attempt to serve request as file, then
--		# as directory, then fall back to displaying a 404.
--		try_files $uri $uri/ =404;
-+		proxy_pass http://localhost:8001;
-+		proxy_set_header Host $http_host;
-+	}
-+	
-+		
- 	}
- 
--	# pass PHP scripts to FastCGI server
--	#
--	#location ~ \.php$ {
--	#	include snippets/fastcgi-php.conf;
--	#
--	#	# With php-fpm (or other unix sockets):
--	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
--	#	# With php-cgi (or other tcp sockets):
--	#	fastcgi_pass 127.0.0.1:9000;
--	#}
- 
--	# deny access to .htaccess files, if Apache's document root
--	# concurs with nginx's one
--	#
--	#location ~ /\.ht {
--	#	deny all;
--	#}
-+server {
-+    listen 8080 default_server;
-+    location = /stub_status {
-+        stub_status;
-+    }
- }
- 
--
--# Virtual Host configuration for example.com
--#
--# You can move that to a different file under sites-available/ and symlink that
--# to sites-enabled/ to enable it.
--#
--#server {
--#	listen 80;
--#	listen [::]:80;
--#
--#	server_name example.com;
--#
--#	root /var/www/example.com;
--#	index index.html;
--#
--#	location / {
--#		try_files $uri $uri/ =404;
--#	}
--#}
-
-changed: [kagu22-2]
---- before: /etc/nginx/sites-enabled/default
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpe64nvmhq/default.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpf4u26rwo/default.j2
 @@ -1,91 +1,24 @@
 -##
 -# You should look at the following URL's in order to grasp a solid understanding
@@ -1559,16 +1363,228 @@ changed: [kagu22-2]
 -#}
 
 changed: [kagu22-3]
+--- before: /etc/nginx/sites-enabled/default
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp5iqxj9ce/default.j2
+@@ -1,91 +1,21 @@
+-##
+-# You should look at the following URL's in order to grasp a solid understanding
+-# of Nginx configuration files in order to fully unleash the power of Nginx.
+-# https://www.nginx.com/resources/wiki/start/
+-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+-# https://wiki.debian.org/Nginx/DirectoryStructure
+-#
+-# In most cases, administrators will remove this file from sites-enabled/ and
+-# leave it as reference inside of sites-available where it will continue to be
+-# updated by the nginx packaging team.
+-#
+-# This file will automatically load configuration files provided by other
+-# applications, such as Drupal or Wordpress. These applications will be made
+-# available underneath a path with that package name, such as /drupal8.
+-#
+-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+-##
+ 
+-# Default server configuration
+-#
+ server {
+ 	listen 80 default_server;
+-	listen [::]:80 default_server;
+-
+-	# SSL configuration
+-	#
+-	# listen 443 ssl default_server;
+-	# listen [::]:443 ssl default_server;
+-	#
+-	# Note: You should disable gzip for SSL traffic.
+-	# See: https://bugs.debian.org/773332
+-	#
+-	# Read up on ssl_ciphers to ensure a secure configuration.
+-	# See: https://bugs.debian.org/765782
+-	#
+-	# Self signed certs generated by the ssl-cert package
+-	# Don't use them in a production server!
+-	#
+-	# include snippets/snakeoil.conf;
+-
+-	root /var/www/html;
+-
+-	# Add index.php to the list if you are using PHP
+-	index index.html index.htm index.nginx-debian.html;
+-
+ 	server_name _;
+ 
+ 	location / {
+-		# First attempt to serve request as file, then
+-		# as directory, then fall back to displaying a 404.
+-		try_files $uri $uri/ =404;
++		proxy_pass http://localhost:8001;
++		proxy_set_header Host $http_host;
++	}
++	
++		
+ 	}
+ 
+-	# pass PHP scripts to FastCGI server
+-	#
+-	#location ~ \.php$ {
+-	#	include snippets/fastcgi-php.conf;
+-	#
+-	#	# With php-fpm (or other unix sockets):
+-	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+-	#	# With php-cgi (or other tcp sockets):
+-	#	fastcgi_pass 127.0.0.1:9000;
+-	#}
+ 
+-	# deny access to .htaccess files, if Apache's document root
+-	# concurs with nginx's one
+-	#
+-	#location ~ /\.ht {
+-	#	deny all;
+-	#}
++server {
++    listen 8080 default_server;
++    location = /stub_status {
++        stub_status;
++    }
+ }
+ 
+-
+-# Virtual Host configuration for example.com
+-#
+-# You can move that to a different file under sites-available/ and symlink that
+-# to sites-enabled/ to enable it.
+-#
+-#server {
+-#	listen 80;
+-#	listen [::]:80;
+-#
+-#	server_name example.com;
+-#
+-#	root /var/www/example.com;
+-#	index index.html;
+-#
+-#	location / {
+-#		try_files $uri $uri/ =404;
+-#	}
+-#}
+
+changed: [kagu22-1]
+--- before: /etc/nginx/sites-enabled/default
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp6aw3zffd/default.j2
+@@ -1,91 +1,21 @@
+-##
+-# You should look at the following URL's in order to grasp a solid understanding
+-# of Nginx configuration files in order to fully unleash the power of Nginx.
+-# https://www.nginx.com/resources/wiki/start/
+-# https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/
+-# https://wiki.debian.org/Nginx/DirectoryStructure
+-#
+-# In most cases, administrators will remove this file from sites-enabled/ and
+-# leave it as reference inside of sites-available where it will continue to be
+-# updated by the nginx packaging team.
+-#
+-# This file will automatically load configuration files provided by other
+-# applications, such as Drupal or Wordpress. These applications will be made
+-# available underneath a path with that package name, such as /drupal8.
+-#
+-# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+-##
+ 
+-# Default server configuration
+-#
+ server {
+ 	listen 80 default_server;
+-	listen [::]:80 default_server;
+-
+-	# SSL configuration
+-	#
+-	# listen 443 ssl default_server;
+-	# listen [::]:443 ssl default_server;
+-	#
+-	# Note: You should disable gzip for SSL traffic.
+-	# See: https://bugs.debian.org/773332
+-	#
+-	# Read up on ssl_ciphers to ensure a secure configuration.
+-	# See: https://bugs.debian.org/765782
+-	#
+-	# Self signed certs generated by the ssl-cert package
+-	# Don't use them in a production server!
+-	#
+-	# include snippets/snakeoil.conf;
+-
+-	root /var/www/html;
+-
+-	# Add index.php to the list if you are using PHP
+-	index index.html index.htm index.nginx-debian.html;
+-
+ 	server_name _;
+ 
+ 	location / {
+-		# First attempt to serve request as file, then
+-		# as directory, then fall back to displaying a 404.
+-		try_files $uri $uri/ =404;
++		proxy_pass http://localhost:8001;
++		proxy_set_header Host $http_host;
++	}
++	
++		
+ 	}
+ 
+-	# pass PHP scripts to FastCGI server
+-	#
+-	#location ~ \.php$ {
+-	#	include snippets/fastcgi-php.conf;
+-	#
+-	#	# With php-fpm (or other unix sockets):
+-	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+-	#	# With php-cgi (or other tcp sockets):
+-	#	fastcgi_pass 127.0.0.1:9000;
+-	#}
+ 
+-	# deny access to .htaccess files, if Apache's document root
+-	# concurs with nginx's one
+-	#
+-	#location ~ /\.ht {
+-	#	deny all;
+-	#}
++server {
++    listen 8080 default_server;
++    location = /stub_status {
++        stub_status;
++    }
+ }
+ 
+-
+-# Virtual Host configuration for example.com
+-#
+-# You can move that to a different file under sites-available/ and symlink that
+-# to sites-enabled/ to enable it.
+-#
+-#server {
+-#	listen 80;
+-#	listen [::]:80;
+-#
+-#	server_name example.com;
+-#
+-#	root /var/www/example.com;
+-#	index index.html;
+-#
+-#	location / {
+-#		try_files $uri $uri/ =404;
+-#	}
+-#}
+
+changed: [kagu22-2]
 
 RUNNING HANDLER [nginx : restart nginx] ****************************************
 changed: [kagu22-3]
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 RUNNING HANDLER [nginx : restart nginx_exporter] *******************************
 changed: [kagu22-3]
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 PLAY [Prometheus] **************************************************************
 
@@ -1595,7 +1611,7 @@ changed: [kagu22-3]
 
 TASK [prometheus : Copy Prometheus conf to /etc/prometheus] ********************
 --- before: /etc/prometheus/prometheus.yml
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpnsqpntuf/prometheus.yml.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmptb1r3utn/prometheus.yml.j2
 @@ -1,44 +1,56 @@
 -# Sample config for Prometheus.
 +global:
@@ -1668,32 +1684,33 @@ TASK [prometheus : Copy Prometheus conf to /etc/prometheus] ********************
 +  - job_name: 'mysql'
 +    static_configs:
 +      - targets:
-+        - mysql-1.kaguu.rk:9104
-+        - mysql-2.kaguu.rk:9104
-+
++        - kagu22-1:9104
++        - kagu22-2:9104
++        
 +  - job_name: influx
 +    static_configs:
 +      - targets:
-+        - influxdb.kaguu.rk:8086
-+
++        - kagu22-3:8086
++        
 +  - job_name: 'haproxy'
 +    static_configs:
 +      - targets:
-+        - lb-1.kaguu.rk:9101
-+        - lb-2.kaguu.rk:9101
-+
++        - kagu22-1:9101
++        - kagu22-2:9101
++        
 +  - job_name: 'keepalived'
 +    static_configs:
 +      - targets:
-+        - lb-1.kaguu.rk:9165
-+        - lb-2.kaguu.rk:9165
++        - kagu22-1:9165
++        - kagu22-2:9165
 +        
+\ No newline at end of file
 
 changed: [kagu22-3]
 
 TASK [prometheus : copy ARGS to /etc/default/prometheus] ***********************
 --- before: /etc/default/prometheus
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpz96sph9r/prometheus
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp4640h2c0/prometheus
 @@ -1,57 +1 @@
 -# Set the command-line arguments to pass to the server.
 -ARGS=""
@@ -1752,7 +1769,7 @@ TASK [prometheus : copy ARGS to /etc/default/prometheus] ***********************
 -#                             Maximum number of queries executed concurrently.
 -#  --log.level=info           Only log messages with the given severity or
 -#                             above. One of: [debug, info, warn, error]
-+ARGS="--web.external-url=http://prometheus.kaguu.rk:5580/prometheus"
++ARGS="--web.external-url=http://193.40.156.67:3080/prometheus"
 
 changed: [kagu22-3]
 
@@ -1819,7 +1836,7 @@ changed: [kagu22-3] => (item=datasources)
 
 TASK [grafana : Copy Dashboard, datasorces templates] **************************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp8u6wrzuv/dashboards.yaml.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp_n89cf1w/dashboards.yaml.j2
 @@ -0,0 +1,14 @@
 +apiVersion: 1
 +
@@ -1838,7 +1855,7 @@ TASK [grafana : Copy Dashboard, datasorces templates] **************************
 
 changed: [kagu22-3] => (item=dashboards)
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpp3ptjcqw/datasources.yaml.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpms68tl9s/datasources.yaml.j2
 @@ -0,0 +1,32 @@
 +# # config file version
 +apiVersion: 1
@@ -1849,7 +1866,7 @@ changed: [kagu22-3] => (item=dashboards)
 +   access: proxy
 +   orgId: 1
 +   uid: b111c13e-f3f2-448a-87c1-01bfc6574d9c
-+   url: http://prometheus/prometheus
++   url: http://kagu22-3/prometheus
 +   version: 1
 +   editable: true
 +
@@ -1857,7 +1874,7 @@ changed: [kagu22-3] => (item=dashboards)
 +   type: influxdb
 +   access: proxy
 +   orgId: 1
-+   url: http://influxdb:8086
++   url: http://kagu22-3:8086
 +   #user:
 +   #password:
 +   database: telegraf
@@ -1866,7 +1883,7 @@ changed: [kagu22-3] => (item=dashboards)
 + - name: InfluxDB:latency
 +   type: influxdb
 +   access: proxy
-+   url: http://influxdb:8086
++   url: http://kagu22-3:8086
 +   #user:
 +   #password:
 +   database: latency
@@ -4793,7 +4810,7 @@ changed: [kagu22-3]
 
 TASK [influxdb : Copy infuxdb conf to  /etc/influxdb/influxdb.conf] ************
 --- before: /etc/influxdb/influxdb.conf
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpbeueopv8/influxdb.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpy8o4an29/influxdb.conf.j2
 @@ -1,596 +1,22 @@
 -### Welcome to the InfluxDB configuration file.
 -
@@ -5437,7 +5454,7 @@ changed: [kagu22-3]
 
 TASK [influxdb : Copy crontab file to /etc/cron.d/influxdb-backup] *************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp61d3jewu/influxdb-backup.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmptrllfo6l/influxdb-backup.j2
 @@ -0,0 +1,3 @@
 +45 23 * * *  backup rm -rf /home/backup/influxdb/*; influxd backup -portable -database telegraf /home/backup/influxdb
 +50 23 * * 0  backup duplicity --no-encryption full /home/backup/influxdb/ rsync://kagu22@backup.kaguu.rk//home/kagu22/influxdb
@@ -5525,7 +5542,7 @@ changed: [kagu22-3]
 
 TASK [pinger : Copy pinger config] *********************************************
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpuxkhxshi/pinger.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpv552piey/pinger.conf.j2
 @@ -0,0 +1,3 @@
 +database_url=http://kagu22-3:8086
 +database_name=latency
@@ -5575,7 +5592,7 @@ The following NEW packages will be installed:
   ipvsadm keepalived libmysqlclient21 libnl-3-200 libnl-genl-3-200
   libsensors-config libsensors5 libsnmp-base libsnmp35
 0 upgraded, 9 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 The following additional packages will be installed:
   ipvsadm libmysqlclient21 libnl-3-200 libnl-genl-3-200 libsensors-config
   libsensors5 libsnmp-base libsnmp35
@@ -5585,11 +5602,11 @@ The following NEW packages will be installed:
   ipvsadm keepalived libmysqlclient21 libnl-3-200 libnl-genl-3-200
   libsensors-config libsensors5 libsnmp-base libsnmp35
 0 upgraded, 9 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [keepalived : Copy keepalived config to /etc/keepalived/keepalived.conf] ***
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp6okot_64/keepalived.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpo6f4i6q7/keepalived.conf.j2
 @@ -0,0 +1,28 @@
 +global_defs {
 +    enable_script_security
@@ -5610,10 +5627,10 @@ TASK [keepalived : Copy keepalived config to /etc/keepalived/keepalived.conf] **
 +    virtual_ipaddress {
 +	    	     
 +              
-+        192.168.100.126/24     
++        192.168.100.123/24     
 +    }
 +    unicast_peer {                          
-+        192.168.42.126
++        192.168.42.123
 +        }
 +    track_script {
 +        check_haproxy
@@ -5622,7 +5639,7 @@ TASK [keepalived : Copy keepalived config to /etc/keepalived/keepalived.conf] **
 
 changed: [kagu22-2]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpakjo8_ga/keepalived.conf.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpy4c3c2uh/keepalived.conf.j2
 @@ -0,0 +1,28 @@
 +global_defs {
 +    enable_script_security
@@ -5643,10 +5660,10 @@ changed: [kagu22-2]
 +    virtual_ipaddress {
 +	    	     
 +              
-+        192.168.100.126/24     
++        192.168.100.123/24     
 +    }
 +    unicast_peer {                          
-+        192.168.42.98
++        192.168.42.63
 +        }
 +    track_script {
 +        check_haproxy
@@ -5656,8 +5673,8 @@ changed: [kagu22-2]
 changed: [kagu22-1]
 
 TASK [keepalived : Create user keepalived_script] ******************************
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [keepalived : Copy vrrp_script to /home/keepalived_script/vrrp_script] ****
 --- before
@@ -5666,30 +5683,30 @@ TASK [keepalived : Copy vrrp_script to /home/keepalived_script/vrrp_script] ****
 +#!/bin/bash
 +ss -ntl | grep -q ':88 '
 
-changed: [kagu22-2]
+changed: [kagu22-1]
 --- before
 +++ after: /home/kagu/ica0002/roles/keepalived/files/vrrp_script
 @@ -0,0 +1,2 @@
 +#!/bin/bash
 +ss -ntl | grep -q ':88 '
 
-changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [keepalived : Ensure that Keepalived is Started und Enabled] **************
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [keepalived_exporter : Download and unarchive keepalived-exporter] ********
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [keepalived_exporter : copy keepalived exporter] **************************
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 TASK [keepalived_exporter : Copy keepalived-exporter.service file to /etc/systemd] ***
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp0hztaboy/keepalived-exporter.service.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpfel7h_ka/keepalived-exporter.service.j2
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Keepalived exporter service
@@ -5704,7 +5721,7 @@ TASK [keepalived_exporter : Copy keepalived-exporter.service file to /etc/system
 
 changed: [kagu22-1]
 --- before
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpn9311sdp/keepalived-exporter.service.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpgwe7rh0j/keepalived-exporter.service.j2
 @@ -0,0 +1,10 @@
 +[Unit]
 +Description=Keepalived exporter service
@@ -5720,22 +5737,22 @@ changed: [kagu22-1]
 changed: [kagu22-2]
 
 TASK [keepalived_exporter : ensure that Keepalived exporter is running und enabled] ***
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 RUNNING HANDLER [keepalived : restart keepalived] ******************************
-changed: [kagu22-1]
 changed: [kagu22-2]
+changed: [kagu22-1]
 
 RUNNING HANDLER [keepalived_exporter : daemon reload] **************************
-changed: [kagu22-2]
 changed: [kagu22-1]
+changed: [kagu22-2]
 
 PLAY [haproxy] *****************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [haproxy : Install HaProxy] ***********************************************
 The following additional packages will be installed:
@@ -5757,7 +5774,7 @@ changed: [kagu22-1]
 
 TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmp5jx7os2_/haproxy.cfg.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmp9bi72fs6/haproxy.cfg.j2
 @@ -7,15 +7,6 @@
  	user haproxy
  	group haproxy
@@ -5774,7 +5791,7 @@ TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
  
  defaults
  	log	global
-@@ -32,3 +23,16 @@
+@@ -32,3 +23,20 @@
  	errorfile 502 /etc/haproxy/errors/502.http
  	errorfile 503 /etc/haproxy/errors/503.http
  	errorfile 504 /etc/haproxy/errors/504.http
@@ -5783,8 +5800,12 @@ TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
 +    bind *:88
 +    server kagu22-1-agama-1 kagu22-1:8001 check
 +    server kagu22-1-agama-2 kagu22-1:8002 check
++    server kagu22-1-agama-3 kagu22-1:8003 check
++    server kagu22-1-agama-4 kagu22-1:8004 check
 +    server kagu22-2-agama-1 kagu22-2:8001 check
 +    server kagu22-2-agama-2 kagu22-2:8002 check
++    server kagu22-2-agama-3 kagu22-2:8003 check
++    server kagu22-2-agama-4 kagu22-2:8004 check
 +    listen stats
 +    bind *:9188
 +    stats enable
@@ -5794,7 +5815,7 @@ TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
 
 changed: [kagu22-2]
 --- before: /etc/haproxy/haproxy.cfg
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpqfktimea/haproxy.cfg.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpk0736yyy/haproxy.cfg.j2
 @@ -7,15 +7,6 @@
  	user haproxy
  	group haproxy
@@ -5811,7 +5832,7 @@ changed: [kagu22-2]
  
  defaults
  	log	global
-@@ -32,3 +23,16 @@
+@@ -32,3 +23,20 @@
  	errorfile 502 /etc/haproxy/errors/502.http
  	errorfile 503 /etc/haproxy/errors/503.http
  	errorfile 504 /etc/haproxy/errors/504.http
@@ -5820,8 +5841,12 @@ changed: [kagu22-2]
 +    bind *:88
 +    server kagu22-1-agama-1 kagu22-1:8001 check
 +    server kagu22-1-agama-2 kagu22-1:8002 check
++    server kagu22-1-agama-3 kagu22-1:8003 check
++    server kagu22-1-agama-4 kagu22-1:8004 check
 +    server kagu22-2-agama-1 kagu22-2:8001 check
 +    server kagu22-2-agama-2 kagu22-2:8002 check
++    server kagu22-2-agama-3 kagu22-2:8003 check
++    server kagu22-2-agama-4 kagu22-2:8004 check
 +    listen stats
 +    bind *:9188
 +    stats enable
@@ -5839,56 +5864,15 @@ TASK [haproxy_exporter : Install Prometheus-Haproxy-exporter] ******************
 The following NEW packages will be installed:
   prometheus-haproxy-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-1]
+changed: [kagu22-2]
 The following NEW packages will be installed:
   prometheus-haproxy-exporter
 0 upgraded, 1 newly installed, 0 to remove and 261 not upgraded.
-changed: [kagu22-2]
+changed: [kagu22-1]
 
 TASK [haproxy_exporter : Copy Args to /etc/default/prometheus-haproxy-exporter] ***
 --- before: /etc/default/prometheus-haproxy-exporter
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpxnsmat02/prometheus-haproxy-exporter.j2
-@@ -1,35 +1 @@
--# Set the command-line arguments to pass to the server.
--# Due to shell scaping, to pass backslashes for regexes, you need to double
--# them (\\d for \d). If running under systemd, you need to double them again
--# (\\\\d to mean \d), and escape newlines too.
--ARGS=""
--
--# Prometheus-haproxy-exporter supports the following options:
--#
--#  --web.listen-address=":9101"
--#    Address to listen on for web interface and telemetry.
--#  --web.telemetry-path="/metrics"
--#    Path under which to expose metrics.
--#  --haproxy.scrape-uri="http://localhost/;csv"
--#    URI on which to scrape HAProxy.
--#  --haproxy.ssl-verify
--#    Flag that enables SSL certificate verification for the scrape URI
--#  --haproxy.server-metric-fields="2,3,4,5,6,7,8,9,13,14,15,16,17,18,21,24,33,35,38,39,40,41,42,43,44"
--#    Comma-separated list of exported server metrics. See
--#    http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#9.1
--#  --haproxy.timeout=5s
--#    Timeout for trying to get stats from HAProxy.
--#  --haproxy.pid-file=""
--#    Path to HAProxy pid file.
--#
--#    If provided, the standard process metrics get exported for the HAProxy
--#    process, prefixed with 'haproxy_process_...'. The haproxy_process exporter
--#    needs to have read access to files owned by the HAProxy process. Depends
--#    on the availability of /proc.
--#    https://prometheus.io/docs/instrumenting/writing_clientlibs/#process-metrics.
--#  --log.level="info"
--#    Only log messages with the given severity or above.
--#    Valid levels: [debug, info, warn, error, fatal]
--#  --log.format="logger:stderr"
--#    Set the log target and format. Example:
--#    "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
-+ARGS="--haproxy.scrape-uri=http://localhost:9188/stats;csv"
-
-changed: [kagu22-2]
---- before: /etc/default/prometheus-haproxy-exporter
-+++ after: /home/kagu/.ansible/tmp/ansible-local-62626tgp7sjg/tmpt__hhpn9/prometheus-haproxy-exporter.j2
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpmos6apoq/prometheus-haproxy-exporter.j2
 @@ -1,35 +1 @@
 -# Set the command-line arguments to pass to the server.
 -# Due to shell scaping, to pass backslashes for regexes, you need to double
@@ -5928,10 +5912,51 @@ changed: [kagu22-2]
 +ARGS="--haproxy.scrape-uri=http://localhost:9188/stats;csv"
 
 changed: [kagu22-1]
+--- before: /etc/default/prometheus-haproxy-exporter
++++ after: /home/kagu/.ansible/tmp/ansible-local-62431kp6ion8s/tmpavzxq_xg/prometheus-haproxy-exporter.j2
+@@ -1,35 +1 @@
+-# Set the command-line arguments to pass to the server.
+-# Due to shell scaping, to pass backslashes for regexes, you need to double
+-# them (\\d for \d). If running under systemd, you need to double them again
+-# (\\\\d to mean \d), and escape newlines too.
+-ARGS=""
+-
+-# Prometheus-haproxy-exporter supports the following options:
+-#
+-#  --web.listen-address=":9101"
+-#    Address to listen on for web interface and telemetry.
+-#  --web.telemetry-path="/metrics"
+-#    Path under which to expose metrics.
+-#  --haproxy.scrape-uri="http://localhost/;csv"
+-#    URI on which to scrape HAProxy.
+-#  --haproxy.ssl-verify
+-#    Flag that enables SSL certificate verification for the scrape URI
+-#  --haproxy.server-metric-fields="2,3,4,5,6,7,8,9,13,14,15,16,17,18,21,24,33,35,38,39,40,41,42,43,44"
+-#    Comma-separated list of exported server metrics. See
+-#    http://cbonte.github.io/haproxy-dconv/configuration-1.5.html#9.1
+-#  --haproxy.timeout=5s
+-#    Timeout for trying to get stats from HAProxy.
+-#  --haproxy.pid-file=""
+-#    Path to HAProxy pid file.
+-#
+-#    If provided, the standard process metrics get exported for the HAProxy
+-#    process, prefixed with 'haproxy_process_...'. The haproxy_process exporter
+-#    needs to have read access to files owned by the HAProxy process. Depends
+-#    on the availability of /proc.
+-#    https://prometheus.io/docs/instrumenting/writing_clientlibs/#process-metrics.
+-#  --log.level="info"
+-#    Only log messages with the given severity or above.
+-#    Valid levels: [debug, info, warn, error, fatal]
+-#  --log.format="logger:stderr"
+-#    Set the log target and format. Example:
+-#    "logger:syslog?appname=bob&local=7" or "logger:stdout?json=true"
++ARGS="--haproxy.scrape-uri=http://localhost:9188/stats;csv"
+
+changed: [kagu22-2]
 
 TASK [haproxy_exporter : Ensure that haproxy exporter is started und enabled] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 RUNNING HANDLER [haproxy : restart haproxy] ************************************
 changed: [kagu22-2]
@@ -5956,24 +5981,24 @@ ok: [kagu22-1]
 ok: [kagu22-3]
 
 TASK [init : Update APT cache] *************************************************
-ok: [kagu22-1]
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [init : Install Prometheus Node Exporters] ********************************
 ok: [kagu22-3]
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [init : Install present  ca-certificates=20230311] ************************
-ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-3]
 ok: [kagu22-2]
 
 TASK [init : Install Rsyslog] **************************************************
 ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
 
 TASK [init : Copy telegraf.conf to /etc/rsyslog.d/] ****************************
 ok: [kagu22-2]
@@ -5986,46 +6011,46 @@ ok: [kagu22-1]
 ok: [kagu22-3]
 
 TASK [init : Create user Backup] ***********************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [init : Add backup server SSH key to the list of known hosts] *************
-ok: [kagu22-1]
 ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-1]
 
 TASK [init : Create /home/backup/restore directory] ****************************
-ok: [kagu22-3]
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
+ok: [kagu22-3]
 
 TASK [init : Install Duplicity] ************************************************
-ok: [kagu22-1]
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
+ok: [kagu22-1]
 
 PLAY [DNS Server] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [bind : Get variables] ****************************************************
 ok: [kagu22-3]
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind : See what variables collected] *************************************
 ok: [kagu22-3] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-1] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-2] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 
 TASK [bind : Install Bind9] ****************************************************
@@ -6034,19 +6059,19 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [bind : Verify that bind is started and enabled] **************************
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [bind : Copy named.conf.options to /etc/bind] *****************************
-ok: [kagu22-3]
 ok: [kagu22-2]
+ok: [kagu22-3]
 ok: [kagu22-1]
 
 TASK [bind : Copy named.conf.local to /etc/bind] *******************************
+ok: [kagu22-3]
 ok: [kagu22-1]
 ok: [kagu22-2]
-ok: [kagu22-3]
 
 TASK [bind : Copy Zone file] ***************************************************
 skipping: [kagu22-1]
@@ -6059,14 +6084,14 @@ skipping: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [bind_exporter : Install Prometheus Bind exporter] ************************
-ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind_exporter : Ensure bind exported is started and enabled] *************
 ok: [kagu22-3]
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 PLAY [DNS records] *************************************************************
 
@@ -6077,33 +6102,31 @@ TASK [dns_records : Install DNSPython] *****************************************
 ok: [kagu22-3]
 
 TASK [dns_records : Set A Records] *********************************************
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3]
+ok: [kagu22-3] => (item={'key': 'backup', 'value': '192.168.42.132'})
 
 TASK [dns_records : Set CNAME Records] *****************************************
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3]
+ok: [kagu22-3] => (item={'key': 'grafana', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'influxdb', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'lb1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'lb2', 'value': 'kagu22-2'})
+ok: [kagu22-3] => (item={'key': 'mysql1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'mysql2', 'value': 'kagu22-2'})
+ok: [kagu22-3] => (item={'key': 'ns1', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'ns2', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'prometheus', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'web1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'web2', 'value': 'kagu22-2'})
 
 PLAY [Resolv.conf] *************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [kagu22-3]
 ok: [kagu22-2]
 ok: [kagu22-1]
-ok: [kagu22-3]
 
 TASK [resolvers : stop resolved service] ***************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 ok: [kagu22-3]
 
 TASK [resolvers : Copy resolv.conf file] ***************************************
@@ -6118,20 +6141,20 @@ ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [mysql : Install MySql server] ********************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [mysql : Install python3-pymysql] *****************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [mysql : copy override.cnf to mysql conf] *********************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [mysql : MySQL database] **************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Add MySql user] **************************************************
 ok: [kagu22-2]
@@ -6146,32 +6169,32 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [mysql : Create MySQL baskup user] ****************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Create MqSQL user for replication] *******************************
 ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [mysql : Copy my.cnf to /home/backup/.my.conf] ****************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Copy Crontab file  to /etc/cron.d/mysql-backup] ******************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Set one MySQL to read only mode] *********************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql_exporter : Copy my.cnf to /var/lib/prometheus] *********************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql_exporter : Install MySQL exporter] *********************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [mysql_exporter : Create MySQL exporter user] *****************************
 ok: [kagu22-1]
@@ -6192,26 +6215,30 @@ ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [docker : Ensure that Docker is started] **********************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [agama : Create directory /opt/agama] *************************************
 ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [agama : DDownolad Hudolejev Agama app files] *****************************
-ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/agama.py', 'dest': 'agama.py'})
 ok: [kagu22-2] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/agama.py', 'dest': 'agama.py'})
-ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', 'dest': 'Dockerfile'})
+ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/agama.py', 'dest': 'agama.py'})
 ok: [kagu22-2] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', 'dest': 'Dockerfile'})
+ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', 'dest': 'Dockerfile'})
 
 TASK [agama : Build Agama docker image] ****************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [agama : Install und start Agama from container] **************************
+ok: [kagu22-2] => (item=None)
 ok: [kagu22-1] => (item=None)
 ok: [kagu22-2] => (item=None)
+ok: [kagu22-1] => (item=None)
+ok: [kagu22-2] => (item=None)
+ok: [kagu22-1] => (item=None)
 ok: [kagu22-2] => (item=None)
 ok: [kagu22-2]
 ok: [kagu22-1] => (item=None)
@@ -6220,19 +6247,19 @@ ok: [kagu22-1]
 PLAY [Nginx] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [kagu22-3]
 ok: [kagu22-1]
 ok: [kagu22-2]
-ok: [kagu22-3]
 
 TASK [nginx : install nginx] ***************************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [nginx : Install Prometheus Nginx Exporter] *******************************
 ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
 
 TASK [nginx : Ensure that Nginx service is started and enabled] ****************
 ok: [kagu22-2]
@@ -6240,14 +6267,14 @@ ok: [kagu22-1]
 ok: [kagu22-3]
 
 TASK [nginx : Ensure that nginx exporter is started und enabled] ***************
-ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-3]
 ok: [kagu22-2]
 
 TASK [nginx : replace the /etc/nginx/sites-enabled/default with my copy] *******
 ok: [kagu22-1]
-ok: [kagu22-3]
 ok: [kagu22-2]
+ok: [kagu22-3]
 
 PLAY [Prometheus] **************************************************************
 
@@ -6360,12 +6387,12 @@ ok: [kagu22-3]
 PLAY [keepalived] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [keepalived : Install Keepalived] *****************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [keepalived : Copy keepalived config to /etc/keepalived/keepalived.conf] ***
 ok: [kagu22-1]
@@ -6376,8 +6403,8 @@ ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [keepalived : Copy vrrp_script to /home/keepalived_script/vrrp_script] ****
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [keepalived : Ensure that Keepalived is Started und Enabled] **************
 ok: [kagu22-1]
@@ -6392,8 +6419,8 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [keepalived_exporter : Copy keepalived-exporter.service file to /etc/systemd] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived_exporter : ensure that Keepalived exporter is running und enabled] ***
 ok: [kagu22-2]
@@ -6410,24 +6437,24 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [haproxy : Ensure that HaProxy is started und enabled] ********************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [haproxy_exporter : Install Prometheus-Haproxy-exporter] ******************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [haproxy_exporter : Copy Args to /etc/default/prometheus-haproxy-exporter] ***
 ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [haproxy_exporter : Ensure that haproxy exporter is started und enabled] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 PLAY RECAP *********************************************************************
 kagu22-1                   : ok=70   changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
@@ -6437,17 +6464,17 @@ kagu22-3                   : ok=67   changed=0    unreachable=0    failed=0    s
 + ansible all -b -m reboot -a test_command=uptime
 kagu22-3 | CHANGED => {
     "changed": true,
-    "elapsed": 45,
+    "elapsed": 37,
     "rebooted": true
 }
 kagu22-1 | CHANGED => {
     "changed": true,
-    "elapsed": 57,
+    "elapsed": 47,
     "rebooted": true
 }
 kagu22-2 | CHANGED => {
     "changed": true,
-    "elapsed": 57,
+    "elapsed": 48,
     "rebooted": true
 }
 + ansible-playbook infra.yaml --diff
@@ -6455,65 +6482,65 @@ kagu22-2 | CHANGED => {
 PLAY [Initial setup] ***********************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [init : Update APT cache] *************************************************
+ok: [kagu22-3]
 ok: [kagu22-2]
 ok: [kagu22-1]
-ok: [kagu22-3]
 
 TASK [init : Install Prometheus Node Exporters] ********************************
-ok: [kagu22-1]
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [init : Install present  ca-certificates=20230311] ************************
+ok: [kagu22-3]
 ok: [kagu22-1]
 ok: [kagu22-2]
-ok: [kagu22-3]
 
 TASK [init : Install Rsyslog] **************************************************
+ok: [kagu22-3]
 ok: [kagu22-2]
 ok: [kagu22-1]
-ok: [kagu22-3]
 
 TASK [init : Copy telegraf.conf to /etc/rsyslog.d/] ****************************
 ok: [kagu22-3]
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [init : Ensure that Rsyslog is started und enabled] ***********************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [init : Create user Backup] ***********************************************
 ok: [kagu22-2]
-ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-3]
 
 TASK [init : Add backup server SSH key to the list of known hosts] *************
-ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [init : Create /home/backup/restore directory] ****************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 ok: [kagu22-3]
 
 TASK [init : Install Duplicity] ************************************************
-ok: [kagu22-1]
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
+ok: [kagu22-1]
 
 PLAY [DNS Server] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [bind : Get variables] ****************************************************
@@ -6523,33 +6550,33 @@ ok: [kagu22-1]
 
 TASK [bind : See what variables collected] *************************************
 ok: [kagu22-3] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-1] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 ok: [kagu22-2] => {
-    "msg": " nameserver 192.168.42.126 nameserver 192.168.42.98 nameserver 192.168.42.55"
+    "msg": " nameserver 192.168.42.123 nameserver 192.168.42.63 nameserver 192.168.42.30"
 }
 
 TASK [bind : Install Bind9] ****************************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind : Verify that bind is started and enabled] **************************
 ok: [kagu22-3]
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind : Copy named.conf.options to /etc/bind] *****************************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [bind : Copy named.conf.local to /etc/bind] *******************************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [bind : Copy Zone file] ***************************************************
@@ -6564,13 +6591,13 @@ ok: [kagu22-3]
 
 TASK [bind_exporter : Install Prometheus Bind exporter] ************************
 ok: [kagu22-3]
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [bind_exporter : Ensure bind exported is started and enabled] *************
-ok: [kagu22-2]
-ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-3]
+ok: [kagu22-2]
 
 PLAY [DNS records] *************************************************************
 
@@ -6581,45 +6608,43 @@ TASK [dns_records : Install DNSPython] *****************************************
 ok: [kagu22-3]
 
 TASK [dns_records : Set A Records] *********************************************
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3]
+ok: [kagu22-3] => (item={'key': 'backup', 'value': '192.168.42.132'})
 
 TASK [dns_records : Set CNAME Records] *****************************************
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3] => (item=None)
-ok: [kagu22-3]
+ok: [kagu22-3] => (item={'key': 'grafana', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'influxdb', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'lb1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'lb2', 'value': 'kagu22-2'})
+ok: [kagu22-3] => (item={'key': 'mysql1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'mysql2', 'value': 'kagu22-2'})
+ok: [kagu22-3] => (item={'key': 'ns1', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'ns2', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'prometheus', 'value': 'kagu22-3'})
+ok: [kagu22-3] => (item={'key': 'web1', 'value': 'kagu22-1'})
+ok: [kagu22-3] => (item={'key': 'web2', 'value': 'kagu22-2'})
 
 PLAY [Resolv.conf] *************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-1]
 ok: [kagu22-3]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [resolvers : stop resolved service] ***************************************
-ok: [kagu22-2]
-ok: [kagu22-1]
 ok: [kagu22-3]
+ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [resolvers : Copy resolv.conf file] ***************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 PLAY [Database server] *********************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Install MySql server] ********************************************
 ok: [kagu22-2]
@@ -6638,8 +6663,8 @@ ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [mysql : Add MySql user] **************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Ensure that MySql server is started and enabled] *****************
 ok: [kagu22-2]
@@ -6654,16 +6679,16 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [mysql : Create MqSQL user for replication] *******************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Copy my.cnf to /home/backup/.my.conf] ****************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Copy Crontab file  to /etc/cron.d/mysql-backup] ******************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql : Set one MySQL to read only mode] *********************************
 ok: [kagu22-2]
@@ -6678,8 +6703,8 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [mysql_exporter : Create MySQL exporter user] *****************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [mysql_exporter : Copy collect slave status file to /etc/default/prometheus-mysqld-exporter] ***
 ok: [kagu22-1]
@@ -6688,20 +6713,20 @@ ok: [kagu22-2]
 PLAY [Web server] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [docker : Install Docker] *************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [docker : Ensure that Docker is started] **********************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [agama : Create directory /opt/agama] *************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [agama : DDownolad Hudolejev Agama app files] *****************************
 ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/agama.py', 'dest': 'agama.py'})
@@ -6710,48 +6735,52 @@ ok: [kagu22-2] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/aga
 ok: [kagu22-1] => (item={'url': 'https://raw.githubusercontent.com/hudolejev/agama/master/Dockerfile', 'dest': 'Dockerfile'})
 
 TASK [agama : Build Agama docker image] ****************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [agama : Install und start Agama from container] **************************
+ok: [kagu22-2] => (item=None)
 ok: [kagu22-1] => (item=None)
 ok: [kagu22-2] => (item=None)
 ok: [kagu22-1] => (item=None)
-ok: [kagu22-1]
+ok: [kagu22-2] => (item=None)
+ok: [kagu22-1] => (item=None)
 ok: [kagu22-2] => (item=None)
 ok: [kagu22-2]
+ok: [kagu22-1] => (item=None)
+ok: [kagu22-1]
 
 PLAY [Nginx] *******************************************************************
 
 TASK [Gathering Facts] *********************************************************
+ok: [kagu22-3]
 ok: [kagu22-2]
 ok: [kagu22-1]
-ok: [kagu22-3]
 
 TASK [nginx : install nginx] ***************************************************
-ok: [kagu22-2]
 ok: [kagu22-3]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [nginx : Install Prometheus Nginx Exporter] *******************************
-ok: [kagu22-2]
 ok: [kagu22-3]
+ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [nginx : Ensure that Nginx service is started and enabled] ****************
-ok: [kagu22-3]
 ok: [kagu22-2]
+ok: [kagu22-3]
 ok: [kagu22-1]
 
 TASK [nginx : Ensure that nginx exporter is started und enabled] ***************
 ok: [kagu22-3]
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [nginx : replace the /etc/nginx/sites-enabled/default with my copy] *******
+ok: [kagu22-1]
 ok: [kagu22-3]
 ok: [kagu22-2]
-ok: [kagu22-1]
 
 PLAY [Prometheus] **************************************************************
 
@@ -6864,24 +6893,24 @@ ok: [kagu22-3]
 PLAY [keepalived] **************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived : Install Keepalived] *****************************************
 ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [keepalived : Copy keepalived config to /etc/keepalived/keepalived.conf] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived : Create user keepalived_script] ******************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived : Copy vrrp_script to /home/keepalived_script/vrrp_script] ****
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived : Ensure that Keepalived is Started und Enabled] **************
 ok: [kagu22-2]
@@ -6892,46 +6921,46 @@ ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [keepalived_exporter : copy keepalived exporter] **************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [keepalived_exporter : Copy keepalived-exporter.service file to /etc/systemd] ***
 ok: [kagu22-2]
 ok: [kagu22-1]
 
 TASK [keepalived_exporter : ensure that Keepalived exporter is running und enabled] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 PLAY [haproxy] *****************************************************************
 
 TASK [Gathering Facts] *********************************************************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [haproxy : Install HaProxy] ***********************************************
-ok: [kagu22-1]
 ok: [kagu22-2]
+ok: [kagu22-1]
 
 TASK [haproxy : Copy haproxy.conf to /etc/haproxy/haproxy.cfg] *****************
 ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [haproxy : Ensure that HaProxy is started und enabled] ********************
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [haproxy_exporter : Install Prometheus-Haproxy-exporter] ******************
 ok: [kagu22-1]
 ok: [kagu22-2]
 
 TASK [haproxy_exporter : Copy Args to /etc/default/prometheus-haproxy-exporter] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 TASK [haproxy_exporter : Ensure that haproxy exporter is started und enabled] ***
-ok: [kagu22-2]
 ok: [kagu22-1]
+ok: [kagu22-2]
 
 PLAY RECAP *********************************************************************
 kagu22-1                   : ok=70   changed=0    unreachable=0    failed=0    skipped=2    rescued=0    ignored=0   
@@ -6939,4 +6968,4 @@ kagu22-2                   : ok=70   changed=0    unreachable=0    failed=0    s
 kagu22-3                   : ok=67   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 + date
-P 17 dets  2023 14:25:32 EET
+K 13 dets  2023 09:09:58 EET
