@@ -29,6 +29,12 @@
   ansible.builtin.apt:
     name: prometheus-node-exporter
 
+- name: Ensure that Prometheus Node Exporters are started and enabled
+  ansible.builtin.service:
+    name: prometheus-node-exporter
+    state: started
+    enabled: true
+
 - name: Install present  ca-certificates=20230311
   ansible.builtin.apt:
     name: ca-certificates=20230311ubuntu0.20.04.1
