@@ -37,7 +37,7 @@ scrape_configs:
   - job_name: influx
     static_configs:
       - targets:
-        - influxdb.{{ domain_name }}:8086
+        - influxdb.{{ domain_name }}:9424
 
   - job_name: 'haproxy'
     static_configs:

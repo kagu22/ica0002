@@ -125,7 +125,7 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
+        "w": 6,
         "x": 0,
         "y": 0
       },
@@ -180,8 +180,8 @@
       "fillGradient": 0,
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 8,
+        "w": 6,
+        "x": 6,
         "y": 0
       },
       "hiddenSeries": false,
@@ -321,8 +321,8 @@
       },
       "gridPos": {
         "h": 7,
-        "w": 8,
-        "x": 16,
+        "w": 6,
+        "x": 12,
         "y": 0
       },
       "id": 17,
@@ -480,6 +480,105 @@
       ],
       "title": "Latency",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "OK"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "#EAB839",
+                "value": 95
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 22,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "10.2.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "influxdb_exporter_stats_query_success",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "A",
+          "useBackend": false
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "b111c13e-f3f2-448a-87c1-01bfc6574d9c"
+          },
+          "disableTextWrap": false,
+          "editorMode": "builder",
+          "expr": "influxdb_write_write_ok",
+          "fullMetaSearch": false,
+          "hide": false,
+          "includeNullMetadata": true,
+          "instant": false,
+          "legendFormat": "{{instance}}",
+          "range": true,
+          "refId": "B",
+          "useBackend": false
+        }
+      ],
+      "title": "Influxdb",
+      "type": "gauge"
     },
     {
       "datasource": {

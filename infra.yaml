@@ -72,6 +72,7 @@
   hosts: influxdb
   roles:
     - influxdb
+    - influxdb_exporter
   tags: influ 
 
 - name: pinger
