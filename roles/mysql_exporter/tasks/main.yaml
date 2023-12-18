@@ -6,7 +6,7 @@
     owner: prometheus
     group: root
     mode: 0640
-  # notify: restart mysql exporter
+  notify: restart mysql exporter
   no_log: true
 
 - name: Install MySQL exporter
