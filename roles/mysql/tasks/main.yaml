@@ -66,6 +66,7 @@
     group: backup
     mode: 0400
   notify: restart mysql
+  no_log: true
 
 - name: Copy Crontab file  to /etc/cron.d/mysql-backup
   ansible.builtin.template:
