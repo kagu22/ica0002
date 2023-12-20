@@ -21,7 +21,7 @@ mysql agama < /home/backup/restore/agama.sql
 
 
 ```ruby
-sudo -u backup duplicity --no-encryption restore rsync://kagu22@backup.kaguu-rk//home/kagu22/influxdb/ /home/backup/restore
+sudo -u backup duplicity --no-encryption restore rsync://kagu22@backup.kaguu.rk//home/kagu22/influxdb/ /home/backup/restore
 ```
 
 ```ruby
